@@ -1,0 +1,4 @@
+NOMBRE,TOKEN,TIPO,VALOR,LONG
+a,ID,Integer,,
+b,ID,Integer,,
+c,ID,Integer,,
