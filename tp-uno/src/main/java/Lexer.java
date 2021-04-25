@@ -573,6 +573,8 @@ class Lexer implements java_cup.runtime.Scanner {
   BufferedWriter  bw;
   File file;
   ArrayList<String> simbolos;
+  public String s;
+  public String Error;
 
   public void writeTable(String str) throws IOException{
     if (!simbolos.contains(str.split(",")[0])) {
@@ -583,8 +585,7 @@ class Lexer implements java_cup.runtime.Scanner {
     }
   }
 
-    public String s = "";
-  	public String Error = "";
+
 
 
   /**
@@ -597,6 +598,8 @@ class Lexer implements java_cup.runtime.Scanner {
     file = new File("../ts.txt");
     bw = new BufferedWriter(new FileWriter(file, true));
     simbolos = new ArrayList<>();
+    s = "";
+    Error = "";
   } catch (IOException e) {
     e.printStackTrace();
   }

@@ -1,13 +1,12 @@
 --/Declaracion de variables/--
 DECLARE.SECTION
-	
 	  INT : a, b , c; --/ Entero /--
 	  FLOAT : d, e; --/ Float /--
 	  STRING : j, g, h, i; --/ String /--
 	  BOOL : o, p; --/ Boolean /--
-	ENDDECLARE.SECTION
+ENDDECLARE.SECTION
 --/ Comienzo de Programa /--
-PROGRAM
+PROGRAM.SECTION
 DISPLAY "Hola mundo!";
 contador = 0;
 actual = 9999;

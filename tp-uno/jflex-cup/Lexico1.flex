@@ -21,6 +21,8 @@ import java_cup.runtime.Symbol;
     file = new File("../ts.txt");
     bw = new BufferedWriter(new FileWriter(file, true));
     simbolos = new ArrayList<>();
+    s = "";
+  	Error = "";
   } catch (IOException e) {
     e.printStackTrace();
   }
@@ -30,6 +32,8 @@ import java_cup.runtime.Symbol;
   BufferedWriter  bw;
   File file;
   ArrayList<String> simbolos;
+  public String s;
+  public String Error;
 
   public void writeTable(String str) throws IOException{
     if (!simbolos.contains(str.split(",")[0])) {
@@ -39,9 +43,6 @@ import java_cup.runtime.Symbol;
       simbolos.add(str.split(",")[0]);
     }
   }
-
-    public String s = "";
-  	public String Error = "";
 %}
 
 LineTerminator = \r|\n|\r\n
