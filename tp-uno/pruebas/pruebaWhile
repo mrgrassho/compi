@@ -7,7 +7,7 @@ DECLARE.SECTION
 ENDDECLARE.SECTION
 --/ Comienzo de Programa /--
 PROGRAM.SECTION
-DISPLAY "Hola mundo!";
+
 contador = 0;
 actual = 9999;
 	suma = 2;
