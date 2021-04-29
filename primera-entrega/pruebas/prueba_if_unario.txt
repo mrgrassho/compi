@@ -11,12 +11,24 @@ ENDDECLARE.SECTION
 PROGRAM.SECTION
 
 --/ Probamos asignaciones de variables /--
-j = "HolaMundo";
-h = "PEPE";
-i = "";
-a = 1;
+j := "HolaMundo";
+h := "PEPE";
+i := "";
+a := 1;
 
---/ Probamos IF /--
-var1 = ?((i==h),a*2,a*0);
+--/ Probamos IF unario /--
+var1 := ?((i==h),a*2,a*0);
+
+IF (a == a) i := "1";
+
+IF (a == a) {
+  i := "1";
+  IF (a == a) i := "1";
+}
+
+WHILE (a > a) {
+  a := a + 1;
+  DISPLAY "a";
+}
 
 ENDPROGRAM.SECTION

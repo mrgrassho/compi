@@ -21,7 +21,7 @@ parser code
 
 	/**Metodo al que se llama automaticamente ante algun error sintactico.*/
 	public void syntax_error(Symbol s) {
-            s += String.format("\nError en la linea " + (s.right+1) + " columna " + s.left + ". "
+            System.out.println("\nError en la linea " + (s.right+1) + " columna " + s.left + ". "
                 + s + " no reconocido. valor " + s.value );
             Error = "Error en la linea " + (s.right+1) + " columna " + s.left + ". "
                     + s + " no reconocido. valor " + s.value ;

@@ -188,6 +188,8 @@ public class IDECompilador extends JFrame {
 						resultadoAnalisis.setText(sintactico.s);
 					} catch (Exception e1) {
 						JOptionPane.showMessageDialog(null,e1.getMessage());
+					} catch (Error e1) {
+						JOptionPane.showMessageDialog(null,e1.getMessage());
 					}
 					path = null;
 				}	
@@ -217,6 +219,8 @@ public class IDECompilador extends JFrame {
 						resultadoAnalisis.setText(lexer.s);
 						fr = new FileReader(archivo);
 					}  catch (Exception e1) {
+						JOptionPane.showMessageDialog(null,e1.getMessage());
+					} catch (Error e1) {
 						JOptionPane.showMessageDialog(null,e1.getMessage());
 					}
 					path = null;

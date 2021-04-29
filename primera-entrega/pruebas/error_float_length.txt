@@ -1,0 +1,13 @@
+--/ Prueba de Comentario /--
+
+DECLARE.SECTION
+  --/ Declaro variables /--
+  FLOAT : a;
+ENDDECLARE.SECTION
+
+PROGRAM.SECTION
+
+--/ Probamos asignaciones de variables /--
+a := 12323.12313213;
+
+ENDPROGRAM.SECTION

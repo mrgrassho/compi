@@ -1,12 +1,2 @@
 NOMBRE,TOKEN,TIPO,VALOR,LONG
-a,ID,Integer,,
-b,ID,Integer,,
-c,ID,Integer,,
-d,ID,Float,,
-e,ID,Float,,
-f,ID,String,,
-g,ID,String,,
-h,ID,String,,
-i,ID,String,,
-o,ID,Bool,,
-p,ID,Bool,,
+a,ID,Float,,

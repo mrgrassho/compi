@@ -3,13 +3,14 @@
 DECLARE.SECTION
   --/ Declaro variables /--
   INT : a, b , c;
-  STRING : a, g, h, i; --/ Espera ERROR! 'a' ya se encuentra definida como INT /--
+  STRING : g, d, h, i;
   BOOL : o, p;
 ENDDECLARE.SECTION
 
 PROGRAM.SECTION
 
 --/ Probamos asignaciones de variables /--
-a = 12;
+a := 222;
+DISPLAY "Genial!";
 
 ENDPROGRAM.SECTION

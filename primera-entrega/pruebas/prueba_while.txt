@@ -16,11 +16,12 @@ WHILE (a < 10) {
     a := a + 1;
 }
 c := c+1;
-WHILE (c <:= 5) {
+WHILE (c <= 5) {
     c:= c + 1;
     DISPLAY "Contadorx5";
 }
-actual := (c/0.342) + (c*c);
+a := (c/0.342) + (c*c);
+a := 11;
 	
 DISPLAY "Fin de programa"; --/ Salida de fin de programa /--
 ENDPROGRAM.SECTION
