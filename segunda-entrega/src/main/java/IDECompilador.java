@@ -1,4 +1,6 @@
 
+import ast.NodoPrograma;
+
 import java.awt.*;
 
 import javax.swing.JFrame;
@@ -17,6 +19,9 @@ import java.io.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.awt.event.ActionEvent;
+
+import java.awt.Desktop;
+import java.io.File;
 
 public class IDECompilador extends JFrame {
 
@@ -201,7 +206,49 @@ public class IDECompilador extends JFrame {
 		gbc_btnNewButton.gridx = 3;
 		gbc_btnNewButton.gridy = 7;
 		contentPane.add(btnNewButton, gbc_btnNewButton);
-		
+
+		JButton btnNewButton3 = new JButton("Generar Arbol AST");
+		btnNewButton3.setBackground(Color.BLUE);
+		btnNewButton3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (fr == null) {
+					JOptionPane.showMessageDialog(null,"No hay archivo cargado");
+				}else {
+					String txt = txaArchivo.getText();
+					Reader in = new StringReader(txt);
+					saveFile(txaArchivo,false);
+					Lexer lexer = new Lexer(in);
+					parser sintactico = new parser(lexer);
+					try {
+						NodoPrograma programa = (NodoPrograma) sintactico.parse().value;
+
+						try {
+							FileWriter archivo = new FileWriter("arbol.dot");
+							PrintWriter pw = new PrintWriter(archivo);
+							pw.println(programa.graficar());
+							archivo.close();
+						} catch (Exception ee) {
+							JOptionPane.showMessageDialog(null,ee.getMessage());
+						}
+
+						String cmd = "dot -Tpng arbol.dot -o arbol.png";
+						Runtime.getRuntime().exec(cmd);
+					} catch (Exception e1) {
+						JOptionPane.showMessageDialog(null,e1.getMessage());
+					} catch (Error e1) {
+						JOptionPane.showMessageDialog(null,e1.getMessage());
+					}
+					path = null;
+				}
+			}
+		});
+		GridBagConstraints gbc_btnNewButton2 = new GridBagConstraints();
+		gbc_btnNewButton2.gridwidth = 1;
+		gbc_btnNewButton2.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewButton2.gridx = 2;
+		gbc_btnNewButton2.gridy = 7;
+		contentPane.add(btnNewButton3, gbc_btnNewButton2);
+
 		JButton btnRealizarAnalisis = new JButton("Analisis Lexicogr\u00E1fico");
 		btnRealizarAnalisis.setBackground(Color.blue);
 		btnRealizarAnalisis.addActionListener(new ActionListener() {
@@ -228,8 +275,8 @@ public class IDECompilador extends JFrame {
 			}
 		});
 		GridBagConstraints gbc_btnRealizarAnalisis = new GridBagConstraints();
-		gbc_btnRealizarAnalisis.gridwidth = 3;
-		gbc_btnRealizarAnalisis.insets = new Insets(0, 0, 5, 5);
+		gbc_btnRealizarAnalisis.gridwidth = 2;
+		gbc_btnRealizarAnalisis.insets = new Insets(0, 4, 5, 5);
 		gbc_btnRealizarAnalisis.gridx = 0;
 		gbc_btnRealizarAnalisis.gridy = 7;
 		contentPane.add(btnRealizarAnalisis, gbc_btnRealizarAnalisis);
