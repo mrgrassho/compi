@@ -7,11 +7,11 @@ public class NodoDisplay extends NodoSentencia {
 
     public NodoDisplay(String mensaje) {
         super("DISPLAY");
-        this.mensaje = mensaje;
+        this.mensaje = mensaje.replaceAll("\"", "");
     }
 
     @Override
     public String getDescripcionNodo() {
-        return "DISPLAY: " + mensaje;
+        return "DISPLAY: " + this.mensaje;
     }
 }
