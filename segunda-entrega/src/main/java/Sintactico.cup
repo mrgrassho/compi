@@ -1,0 +1,244 @@
+
+import ast.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.lang.Integer;
+import java_cup.runtime.*;
+
+parser code
+{:
+	public List<NodoSentencia> a;
+	public BufferedWriter bw;
+	public File file;
+	public HashMap<String, String> simbolos_tabla;
+	public ArrayList<String> elements = new ArrayList();
+	public String resultado="";
+	public String s = "";
+    public String Error = "";
+	public String lastType;
+
+	/**Metodo al que se llama automaticamente ante algun error sintactico.*/
+	public void syntax_error(Symbol s) {
+            System.out.println("\nError en la linea " + (s.right+1) + " columna " + s.left + ". "
+                + s + " no reconocido. valor " + s.value );
+            Error = "Error en la linea " + (s.right+1) + " columna " + s.left + ". "
+                    + s + " no reconocido. valor " + s.value ;
+
+    }
+:};
+
+action code
+{:
+
+	public void writeTable(String id, String type) throws IOException{
+		if (!simbolos_tabla.containsKey(id)) {
+			bw.write(id+",ID,"+type+",,");
+			bw.newLine();
+			bw.flush();
+			simbolos_tabla.put(id,type);
+		} else {
+			throw new IOException("[!ERROR] ID: ["+id+"] se encuentra definido como "+simbolos_tabla.get(id) + ", NO es posible definirlo como " + type);
+		}
+	}
+:};
+
+init with
+{:
+	try {
+		file = new File("../ts.txt");
+		bw = new BufferedWriter(new FileWriter(file));
+		bw.write("NOMBRE,TOKEN,TIPO,VALOR,LONG");
+		bw.newLine();
+		bw.flush();
+		simbolos_tabla = new HashMap<>();
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+:};
+
+
+terminal DOS_PUNTOS,COMA,ASIGNACION,PUNTO_Y_COMA,SIGNO_PREGUNTA, IGUAL,DISTINTO,MAYOR,MENOR,MAYOR_IGUAL,MENOR_IGUAL,PARENTESIS_ABRE,PARENTESIS_CIERRA,LLAVES_ABRE,LLAVES_CIERRA,AND,OR,SUMA,RESTA,DIVISION,MULTIPLICAION,DISPLAY_FUNCTION,WHILE,IF,ELSE,DECLARE_SECTION,ENDDECLARE_SECTION,PROGRAM_SECTION,ENDPROGRAM_SECTION,TYPE_STRING,TYPE_INTEGER,TYPE_FLOAT,TYPE_BOOL,NOT;
+terminal ID,CONST_STRING,CONST_INTEGER,CONST_FLOAT,CONST_BOOL;
+
+non terminal NodoPrograma PROGRAM;
+non terminal DECLARE_SC;
+non terminal List<NodoSentencia> LISTA_SENTENCIAS;
+non terminal NodoBloqueSentencias BLOQUE_SENTENCIAS;
+non terminal NodoSentencia SENTENCIA;
+non terminal NodoAsignacion SENTENCIA_ASSIGN;
+non terminal NodoIf SENTENCIA_IF;
+non terminal NodoIfElse SENTENCIA_IF_ELSE;
+non terminal IF_UNARIO;
+non terminal NodoWhile SENTENCIA_WHILE;
+non terminal SENTENCIA_DISPLAY;
+non terminal NodoCondicion CONDICION;
+non terminal OPERADOR_RELACIONAL;
+non terminal NodoComparacion COMPARACION;
+non terminal LISTA_DECLARE,DECLARACION,LISTA_IDS;
+non terminal NodoExpresion EXPRESION,TERMINO,FACTOR;
+
+PROGRAM ::= DECLARE_SC:dv PROGRAM_SECTION LISTA_SENTENCIAS:ls ENDPROGRAM_SECTION
+{:
+    RESULT = new NodoPrograma(ls);
+    s += String.format("\nPrograma - Regla 0");
+:};
+
+LISTA_SENTENCIAS ::= LISTA_SENTENCIAS:ls SENTENCIA:ss
+                        {:
+                            ls.add(ss);
+                            RESULT = ls;
+                            s += String.format("\nSentencias - Regla 1");
+                        :}
+                    | SENTENCIA:ss
+                        {:
+                            a = new ArrayList<NodoSentencia>();
+                            a.add(ss);
+                            RESULT = a;
+                            s += String.format("\nSentencias - Regla 2");
+                        :};
+
+
+SENTENCIA ::= SENTENCIA_ASSIGN:sa PUNTO_Y_COMA  {: RESULT = sa; s += String.format("\nSentencia asignacion - Regla 3"); :}
+            | SENTENCIA_IF:sa 		            {: RESULT = sa; s += String.format("\nSentencia if - Regla 4"); :}
+            | SENTENCIA_IF_ELSE:sa 		        {: RESULT = sa; s += String.format("\nSentencia if/else - Regla 4"); :}
+            | SENTENCIA_WHILE:sa                {: RESULT = sa; s += String.format("\nSentencia while - Regla 5"); :}
+			| SENTENCIA_DISPLAY:sa PUNTO_Y_COMA {: RESULT = (NodoSentencia) sa; s += String.format("\nSentencia DISPLAY - Regla 6"); :};
+
+SENTENCIA_ASSIGN ::= ID:id ASIGNACION EXPRESION:e
+						{:
+							String type = simbolos_tabla.get(id);
+							if (type == null) throw new RuntimeException("ERROR - Simbolo " + id + " no definido");
+							if ((type.equals("String")) || (type.equals("Bool"))) {
+								throw new RuntimeException("ERROR TIPOS - [" + id+"] esta definida como "+ type +", NO es posible asignar un Float");
+							}
+							s += String.format("\nsentencia id asigna expresion - Regla 8");
+							RESULT= new NodoAsignacion(new NodoIdentificador((String) id), e);
+						:}
+					| ID:id ASIGNACION CONST_STRING:e
+						{:
+							String type = simbolos_tabla.get(id);
+							if (type == null) throw new RuntimeException("ERROR - Simbolo " + id + " no definido");
+							if (!type.equals("String")) throw new RuntimeException("ERROR TIPOS - [" + id+"] esta definida como "+ type +", NO es posible asignar un STRING");
+							s += String.format("\nsentencia id asigna constante string - Regla 9");
+							RESULT = new NodoAsignacion(new NodoIdentificador((String) id), new NodoConstante("CTE_STR", (String) e));
+						:}
+					| ID:id ASIGNACION CONST_BOOL:e
+						{:
+							String type = simbolos_tabla.get(id);
+							if (type == null) throw new RuntimeException("ERROR - Simbolo " + id + " no definido");
+							if (!type.equals("Bool")) throw new RuntimeException("ERROR TIPOS - [" + id+"] esta definida como "+ type +", NO es posible asignar un BOOL");
+							s += String.format("\nsentencia id asigna const bool - Regla 10");
+							RESULT = new NodoAsignacion(new NodoIdentificador((String) (String)id), new NodoConstante("CTE_BOOL",(String) e));
+						:}
+					| ID:id ASIGNACION IF_UNARIO
+						{:
+							s += String.format("\nsentencia id asigna IF unario  - Regla 11");
+						:};
+
+BLOQUE_SENTENCIAS ::= BLOQUE_SENTENCIAS:ls SENTENCIA:ss
+                        {:
+                            ls.add(ss);
+                            RESULT = ls;
+                            s += String.format("\nBloque Sentencias - Regla 12");
+                        :}
+                    | SENTENCIA:ss
+                        {:
+                            NodoBloqueSentencias b = new NodoBloqueSentencias();
+                            b.add(ss);
+                            RESULT = b;
+                            s += String.format("\nBloque Sentencias - Regla 200");
+                        :};
+
+SENTENCIA_IF_ELSE ::= IF CONDICION:c LLAVES_ABRE BLOQUE_SENTENCIAS:a LLAVES_CIERRA ELSE LLAVES_ABRE BLOQUE_SENTENCIAS:b LLAVES_CIERRA 
+						{:
+							s += String.format("\nif (lista de sentencias) - Regla 12"); 
+							RESULT = new NodoIfElse(c, a, b);
+						:};
+
+SENTENCIA_IF ::= IF CONDICION:c LLAVES_ABRE BLOQUE_SENTENCIAS:a LLAVES_CIERRA 
+					{:
+						s += String.format("\nif (lista de sentencias) - Regla 12"); 
+						RESULT = new NodoIf(c, a);
+					:}
+				| IF CONDICION:c SENTENCIA:a 
+					{:
+						s += String.format("\nif (sentencia simple)- Regla 13"); 
+						RESULT = new NodoIf(c, a);
+					:};
+
+SENTENCIA_WHILE ::= WHILE CONDICION:c LLAVES_ABRE BLOQUE_SENTENCIAS:ls LLAVES_CIERRA {: s += String.format("\nwhile - Regla 43"); RESULT = new NodoWhile(c, ls); :};
+
+SENTENCIA_DISPLAY ::= DISPLAY_FUNCTION CONST_STRING:cs {: RESULT = new NodoDisplay((String) cs); s += String.format("\nDISPLAY_FUNCTION - Regla 44"); :};
+
+IF_UNARIO ::= SIGNO_PREGUNTA PARENTESIS_ABRE CONDICION COMA EXPRESION COMA EXPRESION PARENTESIS_CIERRA  {:s += String.format("\nIF unario - Regla 45"); :};
+
+DECLARE_SC ::= DECLARE_SECTION LISTA_DECLARE:l ENDDECLARE_SECTION {:s += String.format("\ndecvar Regla 46"); :};
+
+LISTA_DECLARE ::= LISTA_DECLARE:ls DECLARACION:s {:s += String.format("\nLista Declare - Regla 14"); :}
+			| DECLARACION:d {:s += String.format("\nDeclaracion simple - Regla 15"); :};
+
+DECLARACION ::= TYPE_STRING:tipo DOS_PUNTOS LISTA_IDS PUNTO_Y_COMA {: lastType = "String"; for (String e : elements) { writeTable(e,lastType); } elements = new ArrayList(); s += String.format("\nDeclaracion "+lastType+" - Regla 16");  :}
+			| TYPE_INTEGER:tipo DOS_PUNTOS LISTA_IDS PUNTO_Y_COMA{: lastType = "Integer"; for (String e : elements) { writeTable(e,lastType); } elements = new ArrayList(); s += String.format("\nDeclaracion "+lastType+" - Regla 17"); :}
+			| TYPE_FLOAT:tipo DOS_PUNTOS LISTA_IDS PUNTO_Y_COMA  {: lastType = "Float"; for (String e : elements) { writeTable(e,lastType); } elements = new ArrayList(); s += String.format("\nDeclaracion "+lastType+" - Regla 18"); :}
+			| TYPE_BOOL:tipo DOS_PUNTOS LISTA_IDS PUNTO_Y_COMA   {: lastType = "Bool"; for (String e : elements) { writeTable(e,lastType); } elements = new ArrayList(); s += String.format("\nDeclaracion "+lastType+" - Regla 19"); :};
+
+
+LISTA_IDS ::= LISTA_IDS COMA ID:id  {: elements.add((String)id); s += String.format("\nLista ID Declaracion - Regla 20"); :}
+			| ID:id 				{: elements.add((String)id); s += String.format("\nID Simple Declaracion - Regla 21"); :};
+
+OPERADOR_RELACIONAL ::= IGUAL
+                      | MENOR
+					  | MAYOR
+                      | MENOR_IGUAL
+                      | MAYOR_IGUAL
+					  | DISTINTO ;
+
+COMPARACION ::= EXPRESION:a OPERADOR_RELACIONAL:op EXPRESION:b
+				{:
+					RESULT = new NodoComparacion((String) op, a, b);
+					s += String.format("\nComparacion -  Regla 333"); 
+				:};
+
+CONDICION ::= PARENTESIS_ABRE COMPARACION:ca OR COMPARACION:cb PARENTESIS_CIERRA 	
+				{:
+					RESULT = new NodoCondicionDoble("AND", ca, cb);
+					s += String.format("\nCondicion AND Condicion -  Regla 22"); 
+				:}
+            | PARENTESIS_ABRE COMPARACION:ca AND COMPARACION:cb PARENTESIS_CIERRA 
+				{:
+					RESULT = new NodoCondicionDoble("OR", ca, cb);
+					s += String.format("\nCondicion OR Condicion -  Regla 23"); 
+				:}
+			| NOT PARENTESIS_ABRE COMPARACION:ca PARENTESIS_CIERRA 
+				{:
+					RESULT = new NodoCondicionSimple("NOT", ca);
+					s += String.format("\nNOT Condicion -  Regla 24"); 
+				:}
+            | COMPARACION:ca
+				{:
+					RESULT = new NodoCondicionSimple("", ca);
+					s += String.format("\nCondicion - Regla 25"); 
+				:};
+
+
+EXPRESION ::= EXPRESION:a SUMA TERMINO:b {: RESULT = new NodoSuma(a, b); s += String.format("\nE+T - Regla 33"); :}
+			| EXPRESION:a RESTA TERMINO:b  {: RESULT = new NodoResta(a, b); s += String.format("\nE-T - Regla 34");:}
+			| TERMINO:a  {: RESULT = a; s += String.format("\nTermino Regla 35");RESULT=a;:};
+
+
+TERMINO ::= TERMINO:a MULTIPLICAION FACTOR:b {: RESULT = new NodoMultiplicacion(a, b); s += String.format("\nT*F - Regla 36");:}
+		  | TERMINO:a DIVISION FACTOR:b {: RESULT = new NodoDivision(a, b); s += String.format("\nT/F - Regla 37");:}
+		  | FACTOR:a {: RESULT = a; s += String.format("\nFactor - Regla 38");RESULT=a;:};
+
+
+FACTOR ::= ID:id 			{: RESULT = new NodoIdentificador((String) id); s += String.format("\nFactor ID - Regla 39");:}
+		 | CONST_INTEGER:e 	{: RESULT = new NodoConstante("CTE_INT", (String) e); s += String.format("\nFactor CONST_INT - Regla 40");:}
+		 | CONST_FLOAT:e 	{: RESULT = new NodoConstante("CTE_FLOAT", (String) e); s += String.format("\nFactor CONST_FLOAT - Regla 41");:}
+		 | PARENTESIS_ABRE EXPRESION:e PARENTESIS_CIERRA 
+		 					{: RESULT = e; s += String.format("\nFactor Regla 42");:};

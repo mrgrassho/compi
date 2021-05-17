@@ -1,0 +1,34 @@
+--/ Prueba de Comentario /--
+
+DECLARE.SECTION
+  --/ Declaro variables /--
+  INT : a, b, c, contador; --/ Entero /--
+  FLOAT : d, e; --/ Float /--
+  STRING : aa, j, g, h, i; --/ String /--
+  BOOL : o, p; --/ Boolean /--
+ENDDECLARE.SECTION
+
+PROGRAM.SECTION
+
+--/ Probamos asignaciones de variables /--
+j := "HolaMundo";
+h := "PEPE";
+i := "";
+a := 1;
+
+--/ Probamos IF unario /--
+var1 := ?((i==h),a*2,a*0);
+
+IF (a == a) i := "1";
+
+IF (a == a) {
+  i := "1";
+  IF (a == a) i := "1";
+}
+
+WHILE (a > a) {
+  a := a + 1;
+  DISPLAY "a";
+}
+
+ENDPROGRAM.SECTION

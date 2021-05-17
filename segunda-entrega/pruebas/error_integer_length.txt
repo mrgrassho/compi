@@ -1,0 +1,13 @@
+--/ Prueba de Comentario /--
+
+DECLARE.SECTION
+  --/ Declaro variables /--
+  INT : a;
+ENDDECLARE.SECTION
+
+PROGRAM.SECTION
+
+--/ Probamos asignaciones de variables /--
+a := 777772;
+
+ENDPROGRAM.SECTION

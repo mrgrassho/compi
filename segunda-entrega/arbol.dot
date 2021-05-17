@@ -1,0 +1,11 @@
+graph G {
+    nodo_programa [label="Programa"]
+    nodo_666988784 [label=":="]
+    nodo_programa -- nodo_666988784
+    nodo_1414644648 [label="ID: a"]
+    nodo_666988784 -- nodo_1414644648
+    nodo_640070680 [label="null:222"]
+    nodo_666988784 -- nodo_640070680
+    nodo_1510467688 [label="DISPLAY: Genial!"]
+    nodo_programa -- nodo_1510467688
+}

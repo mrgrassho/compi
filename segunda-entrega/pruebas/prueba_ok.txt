@@ -1,0 +1,16 @@
+--/ Prueba de Comentario /--
+
+DECLARE.SECTION
+  --/ Declaro variables /--
+  INT : a, b , c;
+  STRING : g, d, h, i;
+  BOOL : o, p;
+ENDDECLARE.SECTION
+
+PROGRAM.SECTION
+
+--/ Probamos asignaciones de variables /--
+a := 222;
+DISPLAY "Genial!";
+
+ENDPROGRAM.SECTION
