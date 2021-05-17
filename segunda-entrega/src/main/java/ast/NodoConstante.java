@@ -5,7 +5,8 @@ public class NodoConstante extends NodoExpresion {
     private String type;
 
     public NodoConstante(String type, String valor) {
-        super(type);
+        super("CTE");
+        this.type = type;
         this.valor = valor;
     }
 

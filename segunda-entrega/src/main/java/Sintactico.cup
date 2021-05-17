@@ -118,7 +118,7 @@ SENTENCIA_ASSIGN ::= ID:id ASIGNACION EXPRESION:e
 								throw new RuntimeException("ERROR TIPOS - [" + id+"] esta definida como "+ type +", NO es posible asignar un Float");
 							}
 							s += String.format("\nsentencia id asigna expresion - Regla 8");
-							RESULT= new NodoAsignacion(new NodoIdentificador((String) id), e);
+							RESULT= new NodoAsignacion(new NodoIdentificador((String) id, type), e);
 						:}
 					| ID:id ASIGNACION CONST_STRING:e
 						{:
@@ -126,7 +126,7 @@ SENTENCIA_ASSIGN ::= ID:id ASIGNACION EXPRESION:e
 							if (type == null) throw new RuntimeException("ERROR - Simbolo " + id + " no definido");
 							if (!type.equals("String")) throw new RuntimeException("ERROR TIPOS - [" + id+"] esta definida como "+ type +", NO es posible asignar un STRING");
 							s += String.format("\nsentencia id asigna constante string - Regla 9");
-							RESULT = new NodoAsignacion(new NodoIdentificador((String) id), new NodoConstante("CTE_STR", (String) e));
+							RESULT = new NodoAsignacion(new NodoIdentificador((String) id, type), new NodoConstante("CTE_STR", (String) e));
 						:}
 					| ID:id ASIGNACION CONST_BOOL:e
 						{:
@@ -134,7 +134,7 @@ SENTENCIA_ASSIGN ::= ID:id ASIGNACION EXPRESION:e
 							if (type == null) throw new RuntimeException("ERROR - Simbolo " + id + " no definido");
 							if (!type.equals("Bool")) throw new RuntimeException("ERROR TIPOS - [" + id+"] esta definida como "+ type +", NO es posible asignar un BOOL");
 							s += String.format("\nsentencia id asigna const bool - Regla 10");
-							RESULT = new NodoAsignacion(new NodoIdentificador((String) (String)id), new NodoConstante("CTE_BOOL",(String) e));
+							RESULT = new NodoAsignacion(new NodoIdentificador((String) id, type), new NodoConstante("CTE_BOOL",(String) e));
 						:}
 					| ID:id ASIGNACION IF_UNARIO
 						{:
@@ -192,14 +192,14 @@ DECLARACION ::= TYPE_STRING:tipo DOS_PUNTOS LISTA_IDS PUNTO_Y_COMA {: lastType =
 LISTA_IDS ::= LISTA_IDS COMA ID:id  {: elements.add((String)id); s += String.format("\nLista ID Declaracion - Regla 20"); :}
 			| ID:id 				{: elements.add((String)id); s += String.format("\nID Simple Declaracion - Regla 21"); :};
 
-OPERADOR_RELACIONAL ::= IGUAL
-                      | MENOR
-					  | MAYOR
-                      | MENOR_IGUAL
-                      | MAYOR_IGUAL
-					  | DISTINTO ;
+OPERADOR_RELACIONAL ::= IGUAL:a         {: RESULT = "=="; s += String.format("\nFactor ID - Regla XX");:}
+                      | MENOR:a         {: RESULT = "<"; s += String.format("\nFactor ID - Regla XX");:}
+					  | MAYOR:a         {: RESULT = ">"; s += String.format("\nFactor ID - Regla XX");:}
+                      | MENOR_IGUAL:a   {: RESULT = "<="; s += String.format("\nFactor ID - Regla XX");:}
+                      | MAYOR_IGUAL:a   {: RESULT = ">="; s += String.format("\nFactor ID - Regla XX");:}
+					  | DISTINTO:a      {: RESULT = "!="; s += String.format("\nFactor ID - Regla XX");:};
 
-COMPARACION ::= EXPRESION:a OPERADOR_RELACIONAL:op EXPRESION:b
+COMPARACION ::= PARENTESIS_ABRE EXPRESION:a OPERADOR_RELACIONAL:op EXPRESION:b PARENTESIS_CIERRA
 				{:
 					RESULT = new NodoComparacion((String) op, a, b);
 					s += String.format("\nComparacion -  Regla 333"); 
@@ -207,22 +207,22 @@ COMPARACION ::= EXPRESION:a OPERADOR_RELACIONAL:op EXPRESION:b
 
 CONDICION ::= PARENTESIS_ABRE COMPARACION:ca OR COMPARACION:cb PARENTESIS_CIERRA 	
 				{:
-					RESULT = new NodoCondicionDoble("AND", ca, cb);
+					RESULT = new NodoCondicionDoble("OR", ca, cb);
 					s += String.format("\nCondicion AND Condicion -  Regla 22"); 
 				:}
             | PARENTESIS_ABRE COMPARACION:ca AND COMPARACION:cb PARENTESIS_CIERRA 
 				{:
-					RESULT = new NodoCondicionDoble("OR", ca, cb);
+					RESULT = new NodoCondicionDoble("AND", ca, cb);
 					s += String.format("\nCondicion OR Condicion -  Regla 23"); 
 				:}
-			| NOT PARENTESIS_ABRE COMPARACION:ca PARENTESIS_CIERRA 
+			| NOT COMPARACION:ca
 				{:
 					RESULT = new NodoCondicionSimple("NOT", ca);
 					s += String.format("\nNOT Condicion -  Regla 24"); 
 				:}
             | COMPARACION:ca
 				{:
-					RESULT = new NodoCondicionSimple("", ca);
+					RESULT = new NodoCondicionSimple(null, ca);
 					s += String.format("\nCondicion - Regla 25"); 
 				:};
 
@@ -237,7 +237,7 @@ TERMINO ::= TERMINO:a MULTIPLICAION FACTOR:b {: RESULT = new NodoMultiplicacion(
 		  | FACTOR:a {: RESULT = a; s += String.format("\nFactor - Regla 38");RESULT=a;:};
 
 
-FACTOR ::= ID:id 			{: RESULT = new NodoIdentificador((String) id); s += String.format("\nFactor ID - Regla 39");:}
+FACTOR ::= ID:id 			{: String type = simbolos_tabla.get(id); RESULT = new NodoIdentificador((String) id, type); s += String.format("\nFactor ID - Regla 39");:}
 		 | CONST_INTEGER:e 	{: RESULT = new NodoConstante("CTE_INT", (String) e); s += String.format("\nFactor CONST_INT - Regla 40");:}
 		 | CONST_FLOAT:e 	{: RESULT = new NodoConstante("CTE_FLOAT", (String) e); s += String.format("\nFactor CONST_FLOAT - Regla 41");:}
 		 | PARENTESIS_ABRE EXPRESION:e PARENTESIS_CIERRA 

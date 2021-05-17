@@ -25,7 +25,7 @@ IF(i==aa)a:=1;
 
 IF(i>=aa){a:=1; a:=1;}
 
-IF(i<=aa) IF(i==aa)a:=1;
+IF!(i<=aa) IF(i==aa)a:=1;
 
 IF(i<a){a:=1;}
 IF((i!=aa) && (i==aa)){a:=1;}

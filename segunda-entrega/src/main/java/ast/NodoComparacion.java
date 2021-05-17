@@ -3,11 +3,18 @@ package ast;
 public class NodoComparacion extends NodoExpresion {
     private final NodoExpresion izquierda;
     private final NodoExpresion derecha;
+    private final String operador;
 
     public NodoComparacion(String operador, NodoExpresion izquierda, NodoExpresion derecha) {
-        super(operador);
+        super("OP");
+        this.operador = operador;
         this.izquierda = izquierda;
         this.derecha = derecha;
+    }
+
+    @Override
+    public String getDescripcionNodo() {
+        return "OP: " + this.operador;
     }
 
     @Override
