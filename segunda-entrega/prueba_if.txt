@@ -1,0 +1,43 @@
+--/ TESTING  /--
+
+DECLARE.SECTION
+  INT : a, aa, b , c;
+  FLOAT : d, e;
+  STRING : f, g, h, i;
+  BOOL : o, p;
+ENDDECLARE.SECTION
+
+PROGRAM.SECTION
+
+a := 6553;
+
+--/ Funciones - DISPLAY /--
+DISPLAY "asdasd";
+
+--/
+  Esto es un comentario A
+/--
+
+
+--/ Tipos de IFs /--
+
+IF(i==aa)a:=1;
+
+IF(i>=aa){a:=1; a:=1;}
+
+IF(i<=aa) IF(i==aa)a:=1;
+
+IF(i<a){a:=1;}
+IF((i!=aa) && (i==aa)){a:=1;}
+
+
+--/ Tipos de WHiles /--
+
+WHILE((i!=aa) && (c==b)){
+a:=1;
+}
+
+var1 := ?((i==h),i,a);
+
+
+ENDPROGRAM.SECTION

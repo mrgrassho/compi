@@ -17,7 +17,7 @@ i := "";
 a := 1;
 
 --/ Probamos IF unario /--
-var1 := ?((i==h),a*2,a*0);
+--/ a := ?((i==h),a,b); /--
 
 IF (a == a) i := "1";
 

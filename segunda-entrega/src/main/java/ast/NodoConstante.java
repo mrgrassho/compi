@@ -7,7 +7,10 @@ public class NodoConstante extends NodoExpresion {
     public NodoConstante(String type, String valor) {
         super("CTE");
         this.type = type;
-        this.valor = valor;
+        this.valor = valor.replaceAll("\'|\"", "");
+        if (this.valor.isEmpty()){
+            this.valor = "cadena_vacia";
+        }
     }
 
     @Override

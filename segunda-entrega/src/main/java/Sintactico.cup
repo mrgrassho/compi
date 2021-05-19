@@ -74,7 +74,7 @@ non terminal NodoSentencia SENTENCIA;
 non terminal NodoAsignacion SENTENCIA_ASSIGN;
 non terminal NodoIf SENTENCIA_IF;
 non terminal NodoIfElse SENTENCIA_IF_ELSE;
-non terminal IF_UNARIO;
+non terminal NodoIfUnario IF_UNARIO;
 non terminal NodoWhile SENTENCIA_WHILE;
 non terminal SENTENCIA_DISPLAY;
 non terminal NodoCondicion CONDICION;
@@ -136,9 +136,11 @@ SENTENCIA_ASSIGN ::= ID:id ASIGNACION EXPRESION:e
 							s += String.format("\nsentencia id asigna const bool - Regla 10");
 							RESULT = new NodoAsignacion(new NodoIdentificador((String) id, type), new NodoConstante("CTE_BOOL",(String) e));
 						:}
-					| ID:id ASIGNACION IF_UNARIO
+					| ID:id ASIGNACION IF_UNARIO:e
 						{:
+						    String type = simbolos_tabla.get(id);
 							s += String.format("\nsentencia id asigna IF unario  - Regla 11");
+							RESULT= new NodoAsignacion(new NodoIdentificador((String) id, type), e);
 						:};
 
 BLOQUE_SENTENCIAS ::= BLOQUE_SENTENCIAS:ls SENTENCIA:ss
@@ -176,7 +178,11 @@ SENTENCIA_WHILE ::= WHILE CONDICION:c LLAVES_ABRE BLOQUE_SENTENCIAS:ls LLAVES_CI
 
 SENTENCIA_DISPLAY ::= DISPLAY_FUNCTION CONST_STRING:cs {: RESULT = new NodoDisplay((String) cs); s += String.format("\nDISPLAY_FUNCTION - Regla 44"); :};
 
-IF_UNARIO ::= SIGNO_PREGUNTA PARENTESIS_ABRE CONDICION COMA EXPRESION COMA EXPRESION PARENTESIS_CIERRA  {:s += String.format("\nIF unario - Regla 45"); :};
+IF_UNARIO ::= SIGNO_PREGUNTA PARENTESIS_ABRE CONDICION:c COMA EXPRESION:a COMA EXPRESION:b PARENTESIS_CIERRA
+    {:
+        RESULT = new NodoIfUnario(c, a, b);
+        s += String.format("\nIF unario - Regla 45");
+    :};
 
 DECLARE_SC ::= DECLARE_SECTION LISTA_DECLARE:l ENDDECLARE_SECTION {:s += String.format("\ndecvar Regla 46"); :};
 

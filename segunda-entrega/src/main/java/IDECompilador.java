@@ -228,10 +228,11 @@ public class IDECompilador extends JFrame {
 							pw.println(programa.graficar());
 							archivo.close();
 						} catch (Exception ee) {
-							JOptionPane.showMessageDialog(null,ee.getMessage());
+							System.out.println(ee);
+//							JOptionPane.showMessageDialog(null,ee.getMessage());
 						}
 
-						String cmd = "dot -Tpng arbol.dot -o arbol.png";
+						String cmd = "dot -Tpng arbol.dot - o arbol.png";
 						Runtime.getRuntime().exec(cmd);
 					} catch (Exception e1) {
 						JOptionPane.showMessageDialog(null,e1.getMessage());
