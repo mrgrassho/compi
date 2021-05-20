@@ -44,10 +44,26 @@ IF ((c <= 5) || (c >= 10)) {
 a := (c/0.342) + (c*c);
 
 --/ Esto es una salida por pantalla /--
-DISPLAY "Fin de programa"; 
+DISPLAY "Fin de programa";
 
 --/ If Unario /--
 var1 := ?((i==h),a*2,a*0);
 
 ENDPROGRAM.SECTION
 ```
+
+### Segunda Entrega
+
+En esta entrega, se agrega la funcionalidad de la generación del arbol AST.
+
+Para la ejecución se debe abrir una terminal sobre en directorio `segunda-entrega` y ejecutar el siguiente comando:
+
+```bash
+java -jar Analizador.jar
+```
+
+> Nota: El codigo fue probado en Linux y MacOS, por lo que para que corra en Windows se debe cambiar el comando para ejecutar graphviz (`dot`)por el equivalente en dicha plataforma.
+
+Ejemplo de resultado de generación del arbol AST
+
+![Arbol AST](./segunda-entrega/arbol.png)
