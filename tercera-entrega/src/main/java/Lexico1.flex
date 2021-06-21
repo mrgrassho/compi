@@ -68,6 +68,7 @@ Identificador = [:jletter:][:jletterdigit:]*
   ","                           { s += String.format("\n>>> Simbolo coma encontrado en linea %d, columna %d\n", yyline, yycolumn); return new Symbol(sym.COMA, yychar, yyline);}
   "=="                          { s += String.format("\n>>> Simbolo Igual encontrado en linea %d, columna %d\n", yyline, yycolumn); return new Symbol(sym.IGUAL, yychar, yyline);}
   "!="                          { s += String.format("\n>>> Simbolo Distinto encontrado en linea %d, columna %d\n", yyline, yycolumn); return new Symbol(sym.DISTINTO, yychar, yyline);}
+  "!"                           { s += String.format("\n>>> Simbolo NOT encontrado en linea %d, columna %d\n", yyline, yycolumn); return new Symbol(sym.NOT, yychar, yyline);}
   ">"                           { s += String.format("\n>>> Simbolo Mayor encontrado en linea %d, columna %d\n", yyline, yycolumn); return new Symbol(sym.MAYOR, yychar, yyline);}
   "<"                           { s += String.format("\n>>> Simbolo Menor encontrado en linea %d, columna %d\n", yyline, yycolumn); return new Symbol(sym.MENOR, yychar, yyline);}
   "<="                          { s += String.format("\n>>> Simbolo MayorIgual encontrado en linea %d, columna %d\n", yyline, yycolumn); return new Symbol(sym.MAYOR_IGUAL, yychar, yyline);}
@@ -99,13 +100,11 @@ Identificador = [:jletter:][:jletterdigit:]*
 
   {String}                      {
                                   s += String.format("\n>>> String encontrado: [%s] en linea %d, columna %d\n", yytext(), yyline, yycolumn);
-                                  writeTable("_"+yytext()+",CTE_STR,,"+yytext()+","+yytext().length());
                                   return new Symbol(sym.CONST_STRING, yychar, yyline, new String(yytext()));
                                 }
   {Integer}                     {
                                   if ((Integer.valueOf(yytext()) > -32768) && (Integer.valueOf(yytext()) < 32768)) {
                                     s += String.format("\n>>> Integer encontrado: [%s] en linea %d, columna %d\n", yytext(), yyline, yycolumn);
-                                    writeTable("_"+yytext()+",CTE_INT,,"+yytext()+",");
                                     return new Symbol(sym.CONST_INTEGER, yychar, yyline, new String(yytext()));
                                   } else {
                                     String exception_message = String.format(" ERROR - Integer excede los 16 bits: [%s] en linea %d, columna %d\n", yytext(), yyline, yycolumn);
@@ -120,7 +119,6 @@ Identificador = [:jletter:][:jletterdigit:]*
                 								  if ( (Integer.valueOf(entero) > -32768) && (Integer.valueOf(entero) < 32768)
                 								       && (Integer.valueOf(decimal) > -32768) && (Integer.valueOf(decimal) < 32768) ) {
                                           s += String.format("\n>>> Float encontrado: [%s] en linea %d, columna %d\n", yytext(), yyline, yycolumn);
-                                          writeTable("_"+yytext()+",CTE_FLOAT,,"+yytext()+",");
                                           return new Symbol(sym.CONST_FLOAT, yychar, yyline, new String(yytext()));
                                   } else {
                                     String exception_message = String.format(" ERROR - Float excede los 32 bits: [%s] en linea %d, columna %d\n", yytext(), yyline, yycolumn);
@@ -129,7 +127,6 @@ Identificador = [:jletter:][:jletterdigit:]*
                                 }
   {Boolean}                     {
                                   s += String.format("\n>>> Bool encontrado: [%s] en linea %d, columna %d\n", yytext(), yyline, yycolumn);
-                                  writeTable("_"+yytext()+",CTE_BOOL,,"+yytext()+",");
                                   return new Symbol(sym.CONST_BOOL, yychar, yyline, new String(yytext()));
                                 }
   {Identificador}               {

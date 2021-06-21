@@ -1,0 +1,143 @@
+graph G {nodo_programa [label="Programa"]
+nodo_1414644648 [label="IF_UNARIO_1"]
+nodo_programa -- nodo_1414644648
+nodo_1510467688 [label="OP: =="]
+nodo_1414644648 -- nodo_1510467688
+nodo_1995265320 [label="ID: i
+TYPE: ID"]
+nodo_1510467688 -- nodo_1995265320
+nodo_746292446 [label="ID: h
+TYPE: ID"]
+nodo_1510467688 -- nodo_746292446
+nodo_1072591677 [label="BODY"]
+nodo_1414644648 -- nodo_1072591677
+nodo_1523554304 [label=":="]
+nodo_1072591677 -- nodo_1523554304
+nodo_1175962212 [label="ID: a
+TYPE: Integer"]
+nodo_1523554304 -- nodo_1175962212
+nodo_918221580 [label="+"]
+nodo_1523554304 -- nodo_918221580
+nodo_2055281021 [label="ID: a
+TYPE: ID"]
+nodo_918221580 -- nodo_2055281021
+nodo_1554547125 [label="CTE_INT:1"]
+nodo_918221580 -- nodo_1554547125
+nodo_617901222 [label="BODY"]
+nodo_1414644648 -- nodo_617901222
+nodo_1159190947 [label=":="]
+nodo_617901222 -- nodo_1159190947
+nodo_1175962212 [label="ID: a
+TYPE: Integer"]
+nodo_1159190947 -- nodo_1175962212
+nodo_925858445 [label="ID: b
+TYPE: ID"]
+nodo_1159190947 -- nodo_925858445
+nodo_798154996 [label=":="]
+nodo_programa -- nodo_798154996
+nodo_681842940 [label="ID: c
+TYPE: ID"]
+nodo_798154996 -- nodo_681842940
+nodo_1392838282 [label="CTE_INT:0"]
+nodo_798154996 -- nodo_1392838282
+nodo_523429237 [label=":="]
+nodo_programa -- nodo_523429237
+nodo_664740647 [label="ID: a
+TYPE: ID"]
+nodo_523429237 -- nodo_664740647
+nodo_804564176 [label="CTE_INT:2"]
+nodo_523429237 -- nodo_804564176
+nodo_1421795058 [label="WHILE_1"]
+nodo_programa -- nodo_1421795058
+nodo_41359092 [label="OP: <"]
+nodo_1421795058 -- nodo_41359092
+nodo_149928006 [label="ID: a
+TYPE: ID"]
+nodo_41359092 -- nodo_149928006
+nodo_713338599 [label="CTE_INT:10"]
+nodo_41359092 -- nodo_713338599
+nodo_168423058 [label="BODY"]
+nodo_1421795058 -- nodo_168423058
+nodo_821270929 [label="DISPLAY: a es menor a 10"]
+nodo_168423058 -- nodo_821270929
+nodo_1160460865 [label=":="]
+nodo_168423058 -- nodo_1160460865
+nodo_1247233941 [label="ID: a
+TYPE: ID"]
+nodo_1160460865 -- nodo_1247233941
+nodo_258952499 [label="+"]
+nodo_1160460865 -- nodo_258952499
+nodo_603742814 [label="ID: a
+TYPE: ID"]
+nodo_258952499 -- nodo_603742814
+nodo_1067040082 [label="CTE_INT:1"]
+nodo_258952499 -- nodo_1067040082
+nodo_1325547227 [label=":="]
+nodo_programa -- nodo_1325547227
+nodo_980546781 [label="ID: c
+TYPE: ID"]
+nodo_1325547227 -- nodo_980546781
+nodo_2061475679 [label="+"]
+nodo_1325547227 -- nodo_2061475679
+nodo_140435067 [label="ID: c
+TYPE: ID"]
+nodo_2061475679 -- nodo_140435067
+nodo_1450495309 [label="CTE_INT:1"]
+nodo_2061475679 -- nodo_1450495309
+nodo_1670782018 [label="WHILE_2"]
+nodo_programa -- nodo_1670782018
+nodo_468121027 [label="OP: >="]
+nodo_1670782018 -- nodo_468121027
+nodo_1804094807 [label="ID: c
+TYPE: ID"]
+nodo_468121027 -- nodo_1804094807
+nodo_951007336 [label="CTE_INT:5"]
+nodo_468121027 -- nodo_951007336
+nodo_2001049719 [label="BODY"]
+nodo_1670782018 -- nodo_2001049719
+nodo_1528902577 [label=":="]
+nodo_2001049719 -- nodo_1528902577
+nodo_1927950199 [label="ID: c
+TYPE: ID"]
+nodo_1528902577 -- nodo_1927950199
+nodo_868693306 [label="+"]
+nodo_1528902577 -- nodo_868693306
+nodo_1746572565 [label="ID: c
+TYPE: ID"]
+nodo_868693306 -- nodo_1746572565
+nodo_989110044 [label="CTE_INT:1"]
+nodo_868693306 -- nodo_989110044
+nodo_424058530 [label="DISPLAY: Contadorx5"]
+nodo_2001049719 -- nodo_424058530
+nodo_321001045 [label=":="]
+nodo_programa -- nodo_321001045
+nodo_791452441 [label="ID: a
+TYPE: ID"]
+nodo_321001045 -- nodo_791452441
+nodo_834600351 [label="+"]
+nodo_321001045 -- nodo_834600351
+nodo_471910020 [label="/"]
+nodo_834600351 -- nodo_471910020
+nodo_531885035 [label="ID: c
+TYPE: ID"]
+nodo_471910020 -- nodo_531885035
+nodo_1418481495 [label="CTE_FLOAT:0.342"]
+nodo_471910020 -- nodo_1418481495
+nodo_303563356 [label="*"]
+nodo_834600351 -- nodo_303563356
+nodo_135721597 [label="ID: c
+TYPE: ID"]
+nodo_303563356 -- nodo_135721597
+nodo_142257191 [label="ID: c
+TYPE: ID"]
+nodo_303563356 -- nodo_142257191
+nodo_1044036744 [label=":="]
+nodo_programa -- nodo_1044036744
+nodo_1826771953 [label="ID: a
+TYPE: ID"]
+nodo_1044036744 -- nodo_1826771953
+nodo_1406718218 [label="CTE_INT:11"]
+nodo_1044036744 -- nodo_1406718218
+nodo_245257410 [label="DISPLAY: Fin de programa"]
+nodo_programa -- nodo_245257410
+}
