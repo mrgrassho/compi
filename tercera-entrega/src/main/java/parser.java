@@ -462,7 +462,7 @@ class CUP$parser$actions {
 		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		NodoExpresion e = (NodoExpresion)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
-							String type = tablaSimbolos.simbolos_tabla.get("_@" + id).get(0);
+							String type = tablaSimbolos.simbolos_tabla.get( id).get(0);
 							if (type == null) throw new RuntimeException("ERROR - Simbolo " + id + " no definido");
 							if ((type.equals("String")) || (type.equals("Bool"))) {
 								throw new RuntimeException("ERROR TIPOS - [" + id+"] esta definida como "+ type +", NO es posible asignar un Float");
@@ -485,8 +485,8 @@ class CUP$parser$actions {
 		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
-							if (tablaSimbolos.simbolos_tabla.get("_@" + id) == null) throw new RuntimeException("ERROR - Simbolo " + id + " no definido");
-							String type = tablaSimbolos.simbolos_tabla.get("_@" + id).get(2);
+							if (tablaSimbolos.simbolos_tabla.get( id) == null) throw new RuntimeException("ERROR - Simbolo " + id + " no definido");
+							String type = tablaSimbolos.simbolos_tabla.get( id).get(2);
 							if (!type.equals("String")) throw new RuntimeException("ERROR TIPOS - [" + id+"] esta definida como "+ type +", NO es posible asignar un STRING");
 							s += String.format("\nsentencia id asigna constante string - Regla 9");
 							RESULT = new NodoAsignacion(new NodoIdentificador((String) id, type), new NodoConstante("CTE_STR", ((String) e).replaceAll("\"", "")));
@@ -506,8 +506,8 @@ class CUP$parser$actions {
 		int eright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object e = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
-							if (tablaSimbolos.simbolos_tabla.get("_@" + id) == null) throw new RuntimeException("ERROR - Simbolo " + id + " no definido");
-							String type = tablaSimbolos.simbolos_tabla.get("_@" + id).get(2);
+							if (tablaSimbolos.simbolos_tabla.get( id) == null) throw new RuntimeException("ERROR - Simbolo " + id + " no definido");
+							String type = tablaSimbolos.simbolos_tabla.get( id).get(2);
 							if (!type.equals("Bool")) throw new RuntimeException("ERROR TIPOS - [" + id+"] esta definida como "+ type +", NO es posible asignar un BOOL");
 							s += String.format("\nsentencia id asigna const bool - Regla 10");
 							RESULT = new NodoAsignacion(new NodoIdentificador((String) id, type), new NodoConstante("CTE_BOOL",(String) e));
@@ -533,8 +533,8 @@ class CUP$parser$actions {
 		int bright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		NodoExpresion b = (NodoExpresion)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
 		
-						    if (tablaSimbolos.simbolos_tabla.get("_@" + id) == null) throw new RuntimeException("ERROR - Simbolo " + id + " no definido");
-						    String type = tablaSimbolos.simbolos_tabla.get("_@" + id).get(2);
+						    if (tablaSimbolos.simbolos_tabla.get( id) == null) throw new RuntimeException("ERROR - Simbolo " + id + " no definido");
+						    String type = tablaSimbolos.simbolos_tabla.get( id).get(2);
 							s += String.format("\nsentencia id asigna IF unario  - Regla 11");
 							RESULT= new NodoIfUnario(new NodoIdentificador((String) id, type), c, a, b);
 						
@@ -708,7 +708,7 @@ class CUP$parser$actions {
 		int tipoleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).left;
 		int tiporight = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).right;
 		Object tipo = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-3)).value;
-		 lastType = "String"; for (String e : elements) { tablaSimbolos.writeTableID("_@" + e,lastType); } elements = new ArrayList(); s += String.format("\nDeclaracion "+lastType+" - Regla 16");  
+		 lastType = "String"; for (String e : elements) { tablaSimbolos.writeTableID( e,lastType); } elements = new ArrayList(); s += String.format("\nDeclaracion "+lastType+" - Regla 16");  
               CUP$parser$result = parser.getSymbolFactory().newSymbol("DECLARACION",14, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -720,7 +720,7 @@ class CUP$parser$actions {
 		int tipoleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).left;
 		int tiporight = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).right;
 		Object tipo = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-3)).value;
-		 lastType = "Integer"; for (String e : elements) { tablaSimbolos.writeTableID("_@" + e,lastType); } elements = new ArrayList(); s += String.format("\nDeclaracion "+lastType+" - Regla 17"); 
+		 lastType = "Integer"; for (String e : elements) { tablaSimbolos.writeTableID( e,lastType); } elements = new ArrayList(); s += String.format("\nDeclaracion "+lastType+" - Regla 17"); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("DECLARACION",14, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -732,7 +732,7 @@ class CUP$parser$actions {
 		int tipoleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).left;
 		int tiporight = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).right;
 		Object tipo = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-3)).value;
-		 lastType = "Float"; for (String e : elements) { tablaSimbolos.writeTableID("_@" + e,lastType); } elements = new ArrayList(); s += String.format("\nDeclaracion "+lastType+" - Regla 18"); 
+		 lastType = "Float"; for (String e : elements) { tablaSimbolos.writeTableID( e,lastType); } elements = new ArrayList(); s += String.format("\nDeclaracion "+lastType+" - Regla 18"); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("DECLARACION",14, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -744,7 +744,7 @@ class CUP$parser$actions {
 		int tipoleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).left;
 		int tiporight = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)).right;
 		Object tipo = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-3)).value;
-		 lastType = "Bool"; for (String e : elements) { tablaSimbolos.writeTableID("_@" + e,lastType); } elements = new ArrayList(); s += String.format("\nDeclaracion "+lastType+" - Regla 19"); 
+		 lastType = "Bool"; for (String e : elements) { tablaSimbolos.writeTableID( e,lastType); } elements = new ArrayList(); s += String.format("\nDeclaracion "+lastType+" - Regla 19"); 
               CUP$parser$result = parser.getSymbolFactory().newSymbol("DECLARACION",14, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -1023,7 +1023,7 @@ class CUP$parser$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object id = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 String type = tablaSimbolos.simbolos_tabla.get("_@" + id).get(0); RESULT = new NodoIdentificador((String) id, type); s += String.format("\nFactor ID - Regla 39");
+		 String type = tablaSimbolos.simbolos_tabla.get( id).get(0); RESULT = new NodoIdentificador((String) id, type); s += String.format("\nFactor ID - Regla 39");
               CUP$parser$result = parser.getSymbolFactory().newSymbol("FACTOR",18, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;

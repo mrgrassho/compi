@@ -92,7 +92,7 @@ SENTENCIA ::= SENTENCIA_ASSIGN:sa PUNTO_Y_COMA  {: RESULT = (NodoSentencia) sa; 
 
 SENTENCIA_ASSIGN ::= ID:id ASIGNACION EXPRESION:e
 						{:
-							String type = tablaSimbolos.simbolos_tabla.get("_@" + id).get(0);
+							String type = tablaSimbolos.simbolos_tabla.get( id).get(0);
 							if (type == null) throw new RuntimeException("ERROR - Simbolo " + id + " no definido");
 							if ((type.equals("String")) || (type.equals("Bool"))) {
 								throw new RuntimeException("ERROR TIPOS - [" + id+"] esta definida como "+ type +", NO es posible asignar un Float");
@@ -102,24 +102,24 @@ SENTENCIA_ASSIGN ::= ID:id ASIGNACION EXPRESION:e
 						:}
 					| ID:id ASIGNACION CONST_STRING:e
 						{:
-							if (tablaSimbolos.simbolos_tabla.get("_@" + id) == null) throw new RuntimeException("ERROR - Simbolo " + id + " no definido");
-							String type = tablaSimbolos.simbolos_tabla.get("_@" + id).get(2);
+							if (tablaSimbolos.simbolos_tabla.get( id) == null) throw new RuntimeException("ERROR - Simbolo " + id + " no definido");
+							String type = tablaSimbolos.simbolos_tabla.get( id).get(2);
 							if (!type.equals("String")) throw new RuntimeException("ERROR TIPOS - [" + id+"] esta definida como "+ type +", NO es posible asignar un STRING");
 							s += String.format("\nsentencia id asigna constante string - Regla 9");
 							RESULT = new NodoAsignacion(new NodoIdentificador((String) id, type), new NodoConstante("CTE_STR", ((String) e).replaceAll("\"", "")));
 						:}
 					| ID:id ASIGNACION CONST_BOOL:e
 						{:
-							if (tablaSimbolos.simbolos_tabla.get("_@" + id) == null) throw new RuntimeException("ERROR - Simbolo " + id + " no definido");
-							String type = tablaSimbolos.simbolos_tabla.get("_@" + id).get(2);
+							if (tablaSimbolos.simbolos_tabla.get( id) == null) throw new RuntimeException("ERROR - Simbolo " + id + " no definido");
+							String type = tablaSimbolos.simbolos_tabla.get( id).get(2);
 							if (!type.equals("Bool")) throw new RuntimeException("ERROR TIPOS - [" + id+"] esta definida como "+ type +", NO es posible asignar un BOOL");
 							s += String.format("\nsentencia id asigna const bool - Regla 10");
 							RESULT = new NodoAsignacion(new NodoIdentificador((String) id, type), new NodoConstante("CTE_BOOL",(String) e));
 						:}
 					| ID:id ASIGNACION SIGNO_PREGUNTA PARENTESIS_ABRE CONDICION:c COMA EXPRESION:a COMA EXPRESION:b PARENTESIS_CIERRA
 						{:
-						    if (tablaSimbolos.simbolos_tabla.get("_@" + id) == null) throw new RuntimeException("ERROR - Simbolo " + id + " no definido");
-						    String type = tablaSimbolos.simbolos_tabla.get("_@" + id).get(2);
+						    if (tablaSimbolos.simbolos_tabla.get( id) == null) throw new RuntimeException("ERROR - Simbolo " + id + " no definido");
+						    String type = tablaSimbolos.simbolos_tabla.get( id).get(2);
 							s += String.format("\nsentencia id asigna IF unario  - Regla 11");
 							RESULT= new NodoIfUnario(new NodoIdentificador((String) id, type), c, a, b);
 						:};
@@ -164,10 +164,10 @@ DECLARE_SC ::= DECLARE_SECTION LISTA_DECLARE:l ENDDECLARE_SECTION {:s += String.
 LISTA_DECLARE ::= LISTA_DECLARE:ls DECLARACION:s {:s += String.format("\nLista Declare - Regla 14"); :}
 			| DECLARACION:d {:s += String.format("\nDeclaracion simple - Regla 15"); :};
 
-DECLARACION ::= TYPE_STRING:tipo DOS_PUNTOS LISTA_IDS PUNTO_Y_COMA {: lastType = "String"; for (String e : elements) { tablaSimbolos.writeTableID("_@" + e,lastType); } elements = new ArrayList(); s += String.format("\nDeclaracion "+lastType+" - Regla 16");  :}
-			| TYPE_INTEGER:tipo DOS_PUNTOS LISTA_IDS PUNTO_Y_COMA{: lastType = "Integer"; for (String e : elements) { tablaSimbolos.writeTableID("_@" + e,lastType); } elements = new ArrayList(); s += String.format("\nDeclaracion "+lastType+" - Regla 17"); :}
-			| TYPE_FLOAT:tipo DOS_PUNTOS LISTA_IDS PUNTO_Y_COMA  {: lastType = "Float"; for (String e : elements) { tablaSimbolos.writeTableID("_@" + e,lastType); } elements = new ArrayList(); s += String.format("\nDeclaracion "+lastType+" - Regla 18"); :}
-			| TYPE_BOOL:tipo DOS_PUNTOS LISTA_IDS PUNTO_Y_COMA   {: lastType = "Bool"; for (String e : elements) { tablaSimbolos.writeTableID("_@" + e,lastType); } elements = new ArrayList(); s += String.format("\nDeclaracion "+lastType+" - Regla 19"); :};
+DECLARACION ::= TYPE_STRING:tipo DOS_PUNTOS LISTA_IDS PUNTO_Y_COMA {: lastType = "String"; for (String e : elements) { tablaSimbolos.writeTableID( e,lastType); } elements = new ArrayList(); s += String.format("\nDeclaracion "+lastType+" - Regla 16");  :}
+			| TYPE_INTEGER:tipo DOS_PUNTOS LISTA_IDS PUNTO_Y_COMA{: lastType = "Integer"; for (String e : elements) { tablaSimbolos.writeTableID( e,lastType); } elements = new ArrayList(); s += String.format("\nDeclaracion "+lastType+" - Regla 17"); :}
+			| TYPE_FLOAT:tipo DOS_PUNTOS LISTA_IDS PUNTO_Y_COMA  {: lastType = "Float"; for (String e : elements) { tablaSimbolos.writeTableID( e,lastType); } elements = new ArrayList(); s += String.format("\nDeclaracion "+lastType+" - Regla 18"); :}
+			| TYPE_BOOL:tipo DOS_PUNTOS LISTA_IDS PUNTO_Y_COMA   {: lastType = "Bool"; for (String e : elements) { tablaSimbolos.writeTableID( e,lastType); } elements = new ArrayList(); s += String.format("\nDeclaracion "+lastType+" - Regla 19"); :};
 
 
 LISTA_IDS ::= LISTA_IDS COMA ID:id  {: elements.add((String)id); s += String.format("\nLista ID Declaracion - Regla 20"); :}
@@ -218,7 +218,7 @@ TERMINO ::= TERMINO:a MULTIPLICAION FACTOR:b {: NodoMultiplicacion nodo = new No
 		  | FACTOR:a {: RESULT = a; s += String.format("\nFactor - Regla 38");RESULT=a;:};
 
 
-FACTOR ::= ID:id 			{: String type = tablaSimbolos.simbolos_tabla.get("_@" + id).get(0); RESULT = new NodoIdentificador((String) id, type); s += String.format("\nFactor ID - Regla 39");:}
+FACTOR ::= ID:id 			{: String type = tablaSimbolos.simbolos_tabla.get( id).get(0); RESULT = new NodoIdentificador((String) id, type); s += String.format("\nFactor ID - Regla 39");:}
 		 | CONST_INTEGER:e 	{: RESULT = new NodoConstante("CTE_INT", (String) e); tablaSimbolos.writeTableCteInt((String) e); s += String.format("\nFactor CONST_INT - Regla 40");:}
 		 | CONST_FLOAT:e 	{: RESULT = new NodoConstante("CTE_FLOAT", (String) e); tablaSimbolos.writeTableCteFloat((String) e); s += String.format("\nFactor CONST_FLOAT - Regla 41");:}
 		 | PARENTESIS_ABRE EXPRESION:e PARENTESIS_CIERRA 

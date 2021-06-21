@@ -21,8 +21,8 @@ public class Main {
       System.out.println(e);
     }
 
-    String cmd = "dot -Tpng arbol.dot -o arbol.png";
-    Runtime.getRuntime().exec(cmd);
+    //String cmd = "dot -Tpng arbol.dot -o arbol.png";
+    //Runtime.getRuntime().exec(cmd);
 
     try {
       FileWriter archivo = new FileWriter("data.asm");

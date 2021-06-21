@@ -7,7 +7,7 @@ public class NodoDisplay extends NodoSentencia {
 
     public NodoDisplay(String mensaje) {
         super("DISPLAY");
-        this.mensaje = mensaje.replaceAll("\"", "");
+        this.mensaje = mensaje.replaceAll("\"|!", "");
     }
 
     @Override

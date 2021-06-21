@@ -42,6 +42,7 @@ public class NodoPrograma extends Nodo {
         resultado.append(".MODEL\tLARGE\n");
         resultado.append(".386\n");
         resultado.append(".STACK 200h\n");
+        resultado.append(".DATA\n");
         resultado.append("\n");
         for (Map.Entry<String, List<String>> entry : simbolos_tabla.entrySet()) {
             String id = entry.getKey();
@@ -53,10 +54,10 @@ public class NodoPrograma extends Nodo {
                     resultado.append(String.format("\t%1$s\tdd\t%2$s\n", id, value));
                     break;
                 case "CTE_STR":
-                    resultado.append(String.format("\t%1$s\tdb\t%2$s,'$'\n", id.replaceAll(" ","_"), value));
+                    resultado.append(String.format("\t%1$s\tdb\t%2$s,\"$\"\n", id.replaceAll(" ","_"), value));
                     break;
                 default:
-                    resultado.append(String.format("\t%s\tdb\t?\n", id));
+                    resultado.append(String.format("\t%s\tdd\t?\n", id));
                     break;
 			}
         }

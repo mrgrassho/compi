@@ -36,7 +36,7 @@ public class TablaSimbolos {
     }
 
     public void writeTableCteString(String id) throws IOException {
-        writeTable("_"+id.replaceAll("\"", ""),"CTE_STR","String", id, String.valueOf(id.length()));
+        writeTable("_"+id.replaceAll("\"|!", ""),"CTE_STR","String", id, String.valueOf(id.length()));
     }
 
     public void writeTableCTE(String id, String token, String type) throws IOException  {
