@@ -5,13 +5,17 @@ import java.awt.*;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import javax.swing.JTextPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
@@ -21,7 +25,6 @@ import java.util.logging.Logger;
 import java.awt.event.ActionEvent;
 
 import java.awt.Desktop;
-import java.io.File;
 
 public class IDECompilador extends JFrame {
 
@@ -52,9 +55,9 @@ public class IDECompilador extends JFrame {
 	 */
 	public IDECompilador() {
 		setResizable(false);
-		setTitle("Compilador - Primera Entrega");
+		setTitle("Compilador - Tercera Entrega");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 700, 600);
+		setBounds(100, 100, 700, 450);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.lightGray);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -65,16 +68,6 @@ public class IDECompilador extends JFrame {
 		gbl_contentPane.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
-		
-		JLabel lblAnalizadorLxico = new JLabel("Compilador");
-		lblAnalizadorLxico.setFont(new Font("Courier", Font.PLAIN, 16));
-		lblAnalizadorLxico.setForeground(Color.BLACK);
-		GridBagConstraints gbc_lblAnalizadorLxico = new GridBagConstraints();
-		gbc_lblAnalizadorLxico.gridwidth = 8;
-		gbc_lblAnalizadorLxico.insets = new Insets(0, 0, 5, 0);
-		gbc_lblAnalizadorLxico.gridx = 0;
-		gbc_lblAnalizadorLxico.gridy = 0;
-		contentPane.add(lblAnalizadorLxico, gbc_lblAnalizadorLxico);
 		
 		JLabel lblNombreDelArchivo = new JLabel("Nombre del archivo");
 		GridBagConstraints gbc_lblNombreDelArchivo = new GridBagConstraints();
@@ -88,9 +81,11 @@ public class IDECompilador extends JFrame {
 		
 		final TextArea txaArchivo = new TextArea();
 		GridBagConstraints gbc_txaArchivo = new GridBagConstraints();
+
 		gbc_txaArchivo.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txaArchivo.insets = new Insets(0, 0, 5, 5);
 		gbc_txaArchivo.gridwidth = 6;
+		
 		gbc_txaArchivo.gridx = 1;
 		gbc_txaArchivo.gridy = 5;
 		contentPane.add(txaArchivo, gbc_txaArchivo);
@@ -162,23 +157,10 @@ public class IDECompilador extends JFrame {
 		gbc_lblCodigoDePrueba.gridx = 1;
 		gbc_lblCodigoDePrueba.gridy = 4;
 		contentPane.add(lblCodigoDePrueba, gbc_lblCodigoDePrueba);
-		
-		final TextArea resultadoAnalisis = new TextArea();
-		resultadoAnalisis.setEditable(false);
-		GridBagConstraints gbc_resultadoAnalisis = new GridBagConstraints();
-		gbc_resultadoAnalisis.insets = new Insets(0, 0, 0, 5);
-		gbc_resultadoAnalisis.fill = GridBagConstraints.BOTH;
-		gbc_resultadoAnalisis.gridwidth = 6;
-		gbc_resultadoAnalisis.gridx = 1;
-		gbc_resultadoAnalisis.gridy = 9;
-		contentPane.add(resultadoAnalisis, gbc_resultadoAnalisis);
-		resultadoAnalisis.setBackground(Color.DARK_GRAY);
-		resultadoAnalisis.setForeground(Color.GREEN);
-		resultadoAnalisis.setFont(new Font("Courier", Font.PLAIN, 13));
 
-		JButton btnNewButton = new JButton("Analisis Sint\u00E1ctico");
-		btnNewButton.setBackground(Color.BLUE);
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnAnalisisSintactico = new JButton("Analisis Sint\u00E1ctico");
+		btnAnalisisSintactico.setBackground(Color.WHITE);
+		btnAnalisisSintactico.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (fr == null) {
 					JOptionPane.showMessageDialog(null,"No hay archivo cargado");
@@ -189,8 +171,19 @@ public class IDECompilador extends JFrame {
 					Lexer lexer = new Lexer(in);
 					parser sintactico = new parser(lexer);
 					try {
-						sintactico.parse();
-						resultadoAnalisis.setText(sintactico.s);
+						sintactico.parse();					
+						JFrame  sintacticoFrame= new JFrame("Resultado de analisis sintáctico");  
+						sintacticoFrame.setSize(500,700);  
+						sintacticoFrame.setVisible(true);  
+					    //crea area de texto
+						JTextArea area=new JTextArea(sintactico.s,100,200);   
+						area.setEditable(false);
+						//agrega scrollbar
+				        JScrollPane scroll = new JScrollPane(area);
+				        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+				        //los agrega en la nueva ventana
+				        sintacticoFrame.add(scroll); 
+				        
 					} catch (Exception e1) {
 						JOptionPane.showMessageDialog(null,e1.getMessage());
 					} catch (Error e1) {
@@ -200,16 +193,63 @@ public class IDECompilador extends JFrame {
 				}	
 			}
 		});
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.gridwidth = 5;
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton.gridx = 3;
-		gbc_btnNewButton.gridy = 7;
-		contentPane.add(btnNewButton, gbc_btnNewButton);
+		GridBagConstraints gbc_btnAnalisisSintactico = new GridBagConstraints();
+		gbc_btnAnalisisSintactico.gridwidth = 5;
+		gbc_btnAnalisisSintactico.insets = new Insets(0, 0, 5, 5);
+		gbc_btnAnalisisSintactico.gridx = 2;
+		gbc_btnAnalisisSintactico.gridy = 7;
+		contentPane.add(btnAnalisisSintactico, gbc_btnAnalisisSintactico);
 
-		JButton btnNewButton3 = new JButton("Generar Arbol AST");
-		btnNewButton3.setBackground(Color.BLUE);
-		btnNewButton3.addActionListener(new ActionListener() {
+
+		JButton btnRealizarAnalisis = new JButton("Analisis Lexicogr\u00E1fico");
+		btnRealizarAnalisis.setBackground(Color.WHITE);
+		btnRealizarAnalisis.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (fr == null) {
+					JOptionPane.showMessageDialog(null,"No hay archivo cargado");
+				}else {
+					String txt = txaArchivo.getText();
+					Reader in = new StringReader(txt);
+//					saveFile(txaArchivo,false);
+					Lexer lexer = new Lexer(in);
+					parser sintactico = new parser(lexer);
+					try {
+						sintactico.parse();
+						fr = new FileReader(archivo);
+						
+						JFrame analisisFrame= new JFrame("Resultado del analisis lexicografico");  
+						analisisFrame.setSize(500,700);  
+						analisisFrame.setVisible(true);  
+					    //crea area de texto
+						JTextArea area=new JTextArea(lexer.s,100,200);   
+						area.setEditable(false);
+						//agrega scrollbar
+				        JScrollPane scroll = new JScrollPane(area);
+				        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+				        //los agrega en la nueva ventana
+				        analisisFrame.add(scroll); 	
+				        
+					}  catch (Exception e1) {
+						JOptionPane.showMessageDialog(null,e1.getMessage());
+					} catch (Error e1) {
+						JOptionPane.showMessageDialog(null,e1.getMessage());
+					}
+					path = null;
+					
+				}	
+			}
+		});
+		GridBagConstraints gbc_btnRealizarAnalisis = new GridBagConstraints();
+		gbc_btnRealizarAnalisis.gridwidth = 2;
+		gbc_btnRealizarAnalisis.insets = new Insets(0, 4, 5, 5);
+		gbc_btnRealizarAnalisis.gridx = 0;
+		gbc_btnRealizarAnalisis.gridy = 7;
+		contentPane.add(btnRealizarAnalisis, gbc_btnRealizarAnalisis);
+	
+		
+		JButton btnGenerarArbolAST = new JButton("Generar Arbol AST");
+		btnGenerarArbolAST.setBackground(Color.WHITE);
+		btnGenerarArbolAST.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (fr == null) {
 					JOptionPane.showMessageDialog(null,"No hay archivo cargado");
@@ -243,56 +283,65 @@ public class IDECompilador extends JFrame {
 				}
 			}
 		});
-		GridBagConstraints gbc_btnNewButton2 = new GridBagConstraints();
-		gbc_btnNewButton2.gridwidth = 1;
-		gbc_btnNewButton2.insets = new Insets(0, 0, 5, 5);
-		gbc_btnNewButton2.gridx = 2;
-		gbc_btnNewButton2.gridy = 7;
-		contentPane.add(btnNewButton3, gbc_btnNewButton2);
-
-		JButton btnRealizarAnalisis = new JButton("Analisis Lexicogr\u00E1fico");
-		btnRealizarAnalisis.setBackground(Color.blue);
-		btnRealizarAnalisis.addActionListener(new ActionListener() {
+		GridBagConstraints gbc_btnGenerarArbolAST = new GridBagConstraints();
+		gbc_btnGenerarArbolAST.gridwidth = 1;
+		gbc_btnGenerarArbolAST.insets = new Insets(0, 0, 5, 5);
+		gbc_btnGenerarArbolAST.gridx = 2;
+		gbc_btnGenerarArbolAST.gridy = 7;
+		contentPane.add(btnGenerarArbolAST, gbc_btnGenerarArbolAST);
+		
+		
+		JButton btnGenerarAssembler = new JButton("Generar assembler");
+		btnGenerarAssembler.setBackground(Color.WHITE);
+		btnGenerarAssembler.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (fr == null) {
 					JOptionPane.showMessageDialog(null,"No hay archivo cargado");
 				}else {
 					String txt = txaArchivo.getText();
 					Reader in = new StringReader(txt);
-//					saveFile(txaArchivo,false);
+					saveFile(txaArchivo,false);
 					Lexer lexer = new Lexer(in);
 					parser sintactico = new parser(lexer);
+					String codigo = "";
 					try {
-						sintactico.parse();
-						resultadoAnalisis.setText(lexer.s);
-						fr = new FileReader(archivo);
-					}  catch (Exception e1) {
+						NodoPrograma programa = (NodoPrograma) sintactico.parse().value;
+						try {
+					      FileWriter archivo = new FileWriter("data.asm");
+					      PrintWriter pw = new PrintWriter(archivo);
+					      codigo = programa.generarAssembler();
+					      pw.println(codigo);
+					      archivo.close();
+						} catch (Exception ee) {
+							JOptionPane.showMessageDialog(null,ee.getMessage());
+						}
+						JFrame assemblerFrame= new JFrame("data.asm");  
+						assemblerFrame.setSize(500,700);  
+					    assemblerFrame.setVisible(true);  
+					    //crea area de texto
+						JTextArea area=new JTextArea(codigo,100,200);   
+						area.setEditable(false);
+						//agrega scrollbar
+				        JScrollPane scroll = new JScrollPane(area);
+				        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+				        //los agrega en la nueva ventana
+				        assemblerFrame.add(scroll); 	
+				        
+					} catch (Exception e1) {
 						JOptionPane.showMessageDialog(null,e1.getMessage());
 					} catch (Error e1) {
 						JOptionPane.showMessageDialog(null,e1.getMessage());
 					}
 					path = null;
-				}	
+				}
 			}
 		});
-		GridBagConstraints gbc_btnRealizarAnalisis = new GridBagConstraints();
-		gbc_btnRealizarAnalisis.gridwidth = 2;
-		gbc_btnRealizarAnalisis.insets = new Insets(0, 4, 5, 5);
-		gbc_btnRealizarAnalisis.gridx = 0;
-		gbc_btnRealizarAnalisis.gridy = 7;
-		contentPane.add(btnRealizarAnalisis, gbc_btnRealizarAnalisis);
-		
-		
-		JLabel lblResutadosDelAnlisis = new JLabel("Resultados del an\u00E1lisis");
-		lblResutadosDelAnlisis.setFont(new Font("Courier", Font.PLAIN, 13));
-		lblResutadosDelAnlisis.setForeground(Color.BLACK);
-		GridBagConstraints gbc_lblResutadosDelAnlisis = new GridBagConstraints();
-		gbc_lblResutadosDelAnlisis.anchor = GridBagConstraints.WEST;
-		gbc_lblResutadosDelAnlisis.insets = new Insets(0, 0, 5, 5);
-		gbc_lblResutadosDelAnlisis.gridx = 1;
-		gbc_lblResutadosDelAnlisis.gridy = 8;
-		contentPane.add(lblResutadosDelAnlisis, gbc_lblResutadosDelAnlisis);
-	
+		GridBagConstraints gbc_btnGenerarAssembler = new GridBagConstraints();
+		 gbc_btnGenerarAssembler.gridwidth = 2;
+		 gbc_btnGenerarAssembler.insets = new Insets(0, 4, 5, 5);
+		 gbc_btnGenerarAssembler.gridx = 5;
+		 gbc_btnGenerarAssembler.gridy = 7;
+		contentPane.add(btnGenerarAssembler,  gbc_btnGenerarAssembler);
 	}
 	
 	public void saveFile(TextArea txaArchivo, Boolean jopt) {
