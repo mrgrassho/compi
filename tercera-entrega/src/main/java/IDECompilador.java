@@ -3,23 +3,15 @@ import ast.NodoPrograma;
 
 import java.awt.*;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.TableModel;
 
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import javax.swing.JTextPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.awt.event.ActionEvent;
@@ -241,12 +233,76 @@ public class IDECompilador extends JFrame {
 		});
 		GridBagConstraints gbc_btnRealizarAnalisis = new GridBagConstraints();
 		gbc_btnRealizarAnalisis.gridwidth = 2;
-		gbc_btnRealizarAnalisis.insets = new Insets(0, 4, 5, 5);
+		gbc_btnRealizarAnalisis.insets = new Insets(0, 2, 5, 5);
 		gbc_btnRealizarAnalisis.gridx = 0;
 		gbc_btnRealizarAnalisis.gridy = 7;
 		contentPane.add(btnRealizarAnalisis, gbc_btnRealizarAnalisis);
-	
-		
+
+		JButton btnTablaSimb = new JButton("Ver Tabla de Simbolos");
+		btnTablaSimb.setBackground(Color.WHITE);
+		btnTablaSimb.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (fr == null) {
+					JOptionPane.showMessageDialog(null,"No hay archivo cargado");
+				}else {
+					String fileName= "ts.txt";
+					File file= new File(fileName);
+
+					// this gives you a 2-dimensional array of strings
+					Object[][] lines = new Object[200][5];
+					Object[] header = new Object[5];
+					Scanner inputStream;
+
+					try{
+						inputStream = new Scanner(file);
+						String line= inputStream.next();
+						String[] values = line.split(",");
+						header = values;
+						int i = 0;
+						while(inputStream.hasNext()){
+							line= inputStream.next();
+							values = line.split(",");
+							// this adds the currently parsed line to the 2-dimensional string array
+							lines[i++] = values;
+						}
+						inputStream.close();
+					}catch (FileNotFoundException ex) {
+						ex.printStackTrace();
+					}
+					JFrame tsFrame= new JFrame("Tabla de Simbolos");
+					//crea area de texto
+					JTable table = new JTable(lines, header);
+					table.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+					table.add(table.getTableHeader(), BorderLayout.PAGE_START);
+//					table.setFillsViewportHeight(true);
+
+					tsFrame.setLayout(new GridBagLayout());
+					GridBagConstraints gbc = new GridBagConstraints();
+					gbc.anchor = GridBagConstraints.NORTHWEST;
+					gbc.fill = GridBagConstraints.BOTH;
+					gbc.gridx = 0;
+					gbc.gridy = 0;
+					gbc.gridheight = 1;
+					gbc.gridwidth = 3;
+					gbc.insets = new Insets(5, 5, 5, 5);
+					gbc.ipadx = 2;
+					gbc.ipady = 2;
+					gbc.weightx = 1;
+					gbc.weighty = 1;
+					tsFrame.add(new JScrollPane(table), gbc);
+					tsFrame.setVisible(true);
+					tsFrame.setSize(500,700);
+				}
+			}
+		});
+		GridBagConstraints gbc_btnTablaSimb = new GridBagConstraints();
+		gbc_btnTablaSimb.gridwidth = 1;
+		gbc_btnTablaSimb.insets = new Insets(0, 0, 5, 5);
+		gbc_btnTablaSimb.gridx = 1;
+		gbc_btnTablaSimb.gridy = 8;
+		contentPane.add(btnTablaSimb, gbc_btnTablaSimb);
+
+
 		JButton btnGenerarArbolAST = new JButton("Generar Arbol AST");
 		btnGenerarArbolAST.setBackground(Color.WHITE);
 		btnGenerarArbolAST.addActionListener(new ActionListener() {

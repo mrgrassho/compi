@@ -71,8 +71,8 @@ Identificador = [:jletter:][:jletterdigit:]*
   "!"                           { s += String.format("\n>>> Simbolo NOT encontrado en linea %d, columna %d\n", yyline, yycolumn); return new Symbol(sym.NOT, yychar, yyline);}
   ">"                           { s += String.format("\n>>> Simbolo Mayor encontrado en linea %d, columna %d\n", yyline, yycolumn); return new Symbol(sym.MAYOR, yychar, yyline);}
   "<"                           { s += String.format("\n>>> Simbolo Menor encontrado en linea %d, columna %d\n", yyline, yycolumn); return new Symbol(sym.MENOR, yychar, yyline);}
-  "<="                          { s += String.format("\n>>> Simbolo MayorIgual encontrado en linea %d, columna %d\n", yyline, yycolumn); return new Symbol(sym.MAYOR_IGUAL, yychar, yyline);}
-  ">="                          { s += String.format("\n>>> Simbolo MenorIgual  encontrado en linea %d, columna %d\n", yyline, yycolumn); return new Symbol(sym.MENOR_IGUAL, yychar, yyline);}
+  "<="                          { s += String.format("\n>>> Simbolo MenorIgual encontrado en linea %d, columna %d\n", yyline, yycolumn); return new Symbol(sym.MENOR_IGUAL, yychar, yyline);}
+  ">="                          { s += String.format("\n>>> Simbolo MayorIgual  encontrado en linea %d, columna %d\n", yyline, yycolumn); return new Symbol(sym.MAYOR_IGUAL, yychar, yyline);}
   "("                           { s += String.format("\n>>> Simbolo Parentesis Abre encontrado en linea %d, columna %d\n", yyline, yycolumn); return new Symbol(sym.PARENTESIS_ABRE, yychar, yyline);}
   ")"                           { s += String.format("\n>>> Simbolo Parentesis Cierra encontrado en linea %d, columna %d\n", yyline, yycolumn); return new Symbol(sym.PARENTESIS_CIERRA, yychar, yyline);}
   "{"                           { s += String.format("\n>>> Simbolo Llaves Abre encontrado en linea %d, columna %d\n", yyline, yycolumn); return new Symbol(sym.LLAVES_ABRE, yychar, yyline);}

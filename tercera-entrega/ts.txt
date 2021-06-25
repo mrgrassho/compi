@@ -1,0 +1,12 @@
+NOMBRE,TOKEN,TIPO,VALOR,LONG
+a,ID,Integer,,""
+b,ID,Integer,,""
+c,ID,Integer,,""
+g,ID,String,,""
+d,ID,String,,""
+h,ID,String,,""
+i,ID,String,,""
+o,ID,Bool,,""
+p,ID,Bool,,""
+_222,CTE_INT,Integer,222,""
+_Genial,CTE_STR,String,"Genial!",9

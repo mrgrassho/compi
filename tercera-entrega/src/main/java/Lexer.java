@@ -1119,12 +1119,12 @@ class Lexer implements java_cup.runtime.Scanner {
             // fall through
           case 66: break;
           case 25: 
-            { s += String.format("\n>>> Simbolo MenorIgual  encontrado en linea %d, columna %d\n", yyline, yycolumn); return new Symbol(sym.MENOR_IGUAL, yychar, yyline);
+            { s += String.format("\n>>> Simbolo MayorIgual  encontrado en linea %d, columna %d\n", yyline, yycolumn); return new Symbol(sym.MAYOR_IGUAL, yychar, yyline);
             } 
             // fall through
           case 67: break;
           case 26: 
-            { s += String.format("\n>>> Simbolo MayorIgual encontrado en linea %d, columna %d\n", yyline, yycolumn); return new Symbol(sym.MAYOR_IGUAL, yychar, yyline);
+            { s += String.format("\n>>> Simbolo MenorIgual encontrado en linea %d, columna %d\n", yyline, yycolumn); return new Symbol(sym.MENOR_IGUAL, yychar, yyline);
             } 
             // fall through
           case 68: break;

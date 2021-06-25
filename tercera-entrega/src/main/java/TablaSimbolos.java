@@ -13,7 +13,7 @@ public class TablaSimbolos {
     public TablaSimbolos() {
         this.simbolos_tabla = new HashMap<>();
         try {
-            File file = new File("../ts.txt");
+            File file = new File("ts.txt");
             this.bw = new BufferedWriter(new FileWriter(file));
             this.bw.write("NOMBRE,TOKEN,TIPO,VALOR,LONG");
             this.bw.newLine();
@@ -40,17 +40,17 @@ public class TablaSimbolos {
     }
 
     public void writeTableCTE(String id, String token, String type) throws IOException  {
-        writeTable("_"+id, token, type, id, "");
+        writeTable("_"+id, token, type, id, "\"\"");
     }
 
     public void writeTableID(String id, String type) throws IOException {
-        writeTable(id,"ID", type, "", "");
+        writeTable(id,"ID", type, "", "\"\"");
     }
 
     public void writeTable(String id, String token, String type, String value, String length) throws IOException{
         if (!this.simbolos_tabla.containsKey(id)) {
             String s = String.join(",", Arrays.asList(id, token, type, value, length));
-            bw.write(s);
+            bw.write(s.replaceAll(" ", "_"));
             bw.newLine();
             bw.flush();
             simbolos_tabla.put(id,Arrays.asList(token, value, type));
