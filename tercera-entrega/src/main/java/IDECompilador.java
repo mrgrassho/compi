@@ -324,9 +324,8 @@ public class IDECompilador extends JFrame {
 							pw.println(programa.graficar());
 							archivo.close();
 						} catch (Exception ee) {
-							JOptionPane.showMessageDialog(null,ee.getMessage());
+							ee.printStackTrace();
 						}
-
 						String cmd = "dot -Tpng arbol.dot -o arbol.png";
 						Runtime.getRuntime().exec(cmd);
 						JOptionPane.showMessageDialog(null,"Arbol AST Generado!");

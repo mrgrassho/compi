@@ -15,6 +15,10 @@ public class Nodo {
         return descripcion;
     }
 
+    public void setDescripcionNodo(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
     protected String graficar(String idPadre) {
         return String.format("%1$s [label=\"%2$s\"]\n%3$s -- %1$s\n", getIdNodo(), getDescripcionNodo(), idPadre);
     }

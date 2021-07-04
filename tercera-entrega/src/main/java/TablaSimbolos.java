@@ -9,6 +9,7 @@ import java.util.List;
 public class TablaSimbolos {
     static private BufferedWriter bw;
     static public HashMap<String, List<String>> simbolos_tabla;
+    static public String RE = "\\s|\\.";
 
     public TablaSimbolos() {
         this.simbolos_tabla = new HashMap<>();
@@ -36,7 +37,11 @@ public class TablaSimbolos {
     }
 
     public void writeTableCteString(String id) throws IOException {
-        writeTable("_"+id.replaceAll("\"|!", ""),"CTE_STR","String", id, String.valueOf(id.length()));
+        if (id.isEmpty()){
+            writeTable("_cadena_vacia","CTE_STR","String", "", "0");
+        } else {
+            writeTable("_"+id.replaceAll("\"|!", ""),"CTE_STR","String", id, String.valueOf(id.length()));
+        }
     }
 
     public void writeTableCTE(String id, String token, String type) throws IOException  {
@@ -47,7 +52,18 @@ public class TablaSimbolos {
         writeTable(id,"ID", type, "", "\"\"");
     }
 
+    public List<String> getElement(Object id) {
+        id = ((String) id).replaceAll(RE, "_");
+        return this.simbolos_tabla.get(id);
+    }
+
+    public String getType(Object id) {
+        id = ((String) id).replaceAll(RE, "_");
+        return this.simbolos_tabla.get(id).get(2);
+    }
+
     public void writeTable(String id, String token, String type, String value, String length) throws IOException{
+        id = id.replaceAll(RE, "_");
         if (!this.simbolos_tabla.containsKey(id)) {
             String s = String.join(",", Arrays.asList(id, token, type, value, length));
             bw.write(s.replaceAll(" ", "_"));

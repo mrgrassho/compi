@@ -22,10 +22,18 @@ public class NodoIfElse extends NodoSentencia {
 	@Override
     protected String graficar(String idPadre) {
         final String miId = this.getIdNodo();
-        return super.graficar(idPadre) +
-                condicion.graficar(miId) +
-                bodyIf.graficar(miId) +
-                bodyIfElse.graficar(miId);
+		bodyIf.setDescripcionNodo("BODY_IF");
+        if (bodyIfElse == null) {
+			return super.graficar(idPadre) +
+					condicion.graficar(miId) +
+					bodyIf.graficar(miId);
+		} else {
+			bodyIfElse.setDescripcionNodo("BODY_ELSE");
+			return super.graficar(idPadre) +
+					condicion.graficar(miId) +
+					bodyIf.graficar(miId) +
+					bodyIfElse.graficar(miId);
+		}
     }
 
     @Override

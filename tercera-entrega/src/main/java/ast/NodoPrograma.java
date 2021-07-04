@@ -48,13 +48,14 @@ public class NodoPrograma extends Nodo {
             String id = entry.getKey();
             String type = entry.getValue().get(0);
             String value = entry.getValue().size() > 1 ? entry.getValue().get(1) : null;
+            id.replaceAll("\\s|\\.","_");
             switch (type) {
                 case "CTE_INT":
                 case "CTE_FLOAT":
                     resultado.append(String.format("\t%1$s\tdd\t%2$s\n", id, value));
                     break;
                 case "CTE_STR":
-                    resultado.append(String.format("\t%1$s\tdb\t%2$s,\"$\"\n", id.replaceAll(" ","_"), value));
+                    resultado.append(String.format("\t%1$s\tdb\t%2$s,\"$\"\n", id, value));
                     break;
                 default:
                     resultado.append(String.format("\t%s\tdd\t?\n", id));

@@ -4,10 +4,11 @@ public class NodoConstante extends NodoExpresion implements NodoHoja {
     private String valor;
     private String type;
 
+
     public NodoConstante(String type, String valor) {
         super("CTE");
         this.type = type;
-        this.valor = valor.replaceAll("\'|\"", "");
+        this.valor = valor.replaceAll("\'|\"", "").replaceAll("\\.", "_");
         if (this.valor.isEmpty()){
             this.valor = "cadena_vacia";
         }

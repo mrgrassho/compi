@@ -9,7 +9,8 @@ ENDDECLARE.SECTION
 
 PROGRAM.SECTION
 
-a := 6553;
+aa := 6553;
+i := 6553;
 
 --/ Funciones - DISPLAY /--
 DISPLAY "asdasd";

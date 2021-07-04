@@ -34,7 +34,7 @@ public class NodoComparacion extends NodoExpresion {
                 derecha.graficar(miId);
     }
 
-    private String getOperador() {
+    public String getOperador() {
     	String rta = "";
     	switch (this.operador) {
             case "==":
@@ -83,20 +83,37 @@ public class NodoComparacion extends NodoExpresion {
         }
     	return rta;
 	}
-    
+
     public String generarAssembler(String endTag) {
-    	StringBuilder lineas = new StringBuilder();
-    	if (izquierda instanceof NodoHoja) {
-    		lineas.append(derecha.generarAssembler());
-			lineas.append(izquierda.generarAssembler());
-		} else {
+        return this.generarAssembler(endTag, false);
+    }
+    
+    public String generarAssembler(String endTag, Boolean negate) {
+        StringBuilder lineas = new StringBuilder();
+        if (izquierda instanceof NodoHoja && derecha instanceof NodoHoja) {
+            lineas.append(derecha.generarAssembler());
+            lineas.append(izquierda.generarAssembler());
+        } else if (izquierda instanceof NodoHoja) {
+            lineas.append(derecha.generarAssembler());
+            lineas.append(String.format("\tfld %1$s\n", ((NodoExpresionBinaria) derecha).getAuxVariable()));
+            lineas.append(izquierda.generarAssembler());
+        } else if (derecha instanceof NodoHoja) {
+            lineas.append(izquierda.generarAssembler());
+            lineas.append(String.format("\tfld %1$s\n", ((NodoExpresionBinaria) izquierda).getAuxVariable()));
+            lineas.append(derecha.generarAssembler());
+            lineas.append("\tfxch\n");
+        } else {
 			lineas.append(izquierda.generarAssembler());
 			lineas.append(derecha.generarAssembler());
-			lineas.append("\tfxch\n");
+            lineas.append(String.format("\tfld %1$s\n", ((NodoExpresionBinaria) derecha).getAuxVariable()));
+            lineas.append(String.format("\tfld %1$s\n", ((NodoExpresionBinaria) izquierda).getAuxVariable()));
 		}
     	lineas.append("\tfcomp\n");
     	lineas.append("\tfstsw ax\n");
     	lineas.append("\tsahf\n");
+    	if (negate) {
+    	    this.setOperador(this.getOperadorInverso());
+        }
     	lineas.append(String.format("\t%1$s %2$s\n", this.asmOperador, endTag));
     	return lineas.toString();
     }

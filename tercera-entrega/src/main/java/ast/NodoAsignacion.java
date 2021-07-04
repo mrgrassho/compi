@@ -22,7 +22,13 @@ public class NodoAsignacion extends NodoSentencia implements NodoAsignacionInter
 
     @Override
     public String generarAssembler() {
-    	return expresion.generarAssembler() +
-    	        String.format("\tfstp %1$s\n", identificador.getVariable());
+        if (expresion instanceof NodoExpresionBinaria) {
+            return expresion.generarAssembler() +
+                    String.format("\tfld %1$s\n", ((NodoExpresionBinaria) expresion).getAuxVariable()) +
+                    String.format("\tfstp %1$s\n", identificador.getVariable());
+        } else {
+            return expresion.generarAssembler() +
+                    String.format("\tfstp %1$s\n", identificador.getVariable());
+        }
     }
 }

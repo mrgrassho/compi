@@ -29,9 +29,9 @@ public class NodoCondicionDoble extends NodoCondicion {
                 return this.primeraComparacion.generarAssembler(endTag) +
                        this.segundaComparacion.generarAssembler(endTag);
             case "OR":
-                return this.primeraComparacion.generarAssembler(tag) +
-                       String.format("%1$s:\n", tag) +
-                       this.segundaComparacion.generarAssembler(endTag);
+                return this.primeraComparacion.generarAssembler(tag, true) +
+                       this.segundaComparacion.generarAssembler(endTag) +
+                        String.format("%1$s:\n", tag);
     	}
     	return "";
     }

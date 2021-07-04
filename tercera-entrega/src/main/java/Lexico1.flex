@@ -51,7 +51,7 @@ Comentario   = "--/" [^*] ~"/--" | "--/" "/"+ "--"
 
 /* Comienzan las definiciones de */
 
-String = \"([a-zA-Záéíóú0-9 \t\f\.\!\¡ñÑ]{0,30})\"
+String = \"([a-zA-Záéíóú0-9 \t\f\.\!\¡ñÑ\s]{0,30})\"
 Integer = [1-9][0-9]* | 0
 Float = {Integer}\.[0-9]*
 Boolean = "true"|"false"

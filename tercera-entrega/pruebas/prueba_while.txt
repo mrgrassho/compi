@@ -1,27 +1,99 @@
 --/Declaracion de variables/--
 DECLARE.SECTION
-	  INT : a, b , c; --/ Entero /--
-	  FLOAT : d, e; --/ Float /--
-	  STRING : j, g, h, i; --/ String /--
-	  BOOL : o, p; --/ Boolean /--
+	  INT : a, b, c, d, e;
+	  FLOAT: h, k;
 ENDDECLARE.SECTION
 
 --/ Comienzo de Programa /--
 PROGRAM.SECTION
-a := ?((i==h),a+1,b);
-c := 0;
-a := 2;
-WHILE (a < 10) {
-    DISPLAY "a es menor a 10";
-    a := a + 1;
-}
-c := c+1;
+
+--/ Probamos Condiciones Simples/--
+b := 6544;
+a := 6544;
+IF (b == a) DISPLAY "a y b son iguales";
+
+b := b + 1;
+IF (b > a) DISPLAY "b es mayor";
+
+a := a + 2;
+IF (b < a) DISPLAY "b es menor";
+
+c := 1;
 WHILE (c <= 5) {
     c:= c + 1;
     DISPLAY "Contadorx5";
 }
-a := (c/0.342) + (c*c);
-a := 11;
-	
-DISPLAY "Fin de programa"; --/ Salida de fin de programa /--
+
+c := 5;
+WHILE (c > 0) {
+    c := c - 1;
+    DISPLAY "ContadorRegresivox5";
+}
+
+--/ Probamos Condiciones Dobles/--
+d := 1;
+e := 1;
+a := 9;
+b := 10;
+IF ((d == e) && (a<b)) {
+    DISPLAY "Condicion doble";
+}
+
+c := 1;
+WHILE ((d == e) && (c <= 5)) {
+    c:= c + 1;
+    DISPLAY "Contador While x5 AND";
+}
+
+c := 1;
+WHILE ((d == e) || (c <= 5)) {
+    c:= c + 1;
+    DISPLAY "Contador While x5 OR";
+    IF (c == 5) d := 0;
+}
+
+--/ Probamos Comparaciones/--
+
+c := 10 / 2;
+IF (c == 5) DISPLAY "OK 1";
+
+c := 10 / 2 + 10 + 5*2 - 5;
+IF (c == 20) DISPLAY "OK 2";
+
+c := 10 / 2 + 10 + 5*2 - 5;
+IF (50-(15*2) == 10 / 2 + 10 + 5*2 - 5) DISPLAY "OK 3";
+
+c := 20;
+IF (50-(15*2) == c) DISPLAY "OK 4";
+
+--/ Probamos IF UNARIO /--
+c := 10 / 2 + 10 + 5*2 - 5;
+d := ?(c == 20, c+1, c-1);
+
+c := 20;
+d := ?(15 - 1 + 12/2 == 20, 100, 500);
+IF (d == 100) {
+    DISPLAY "d es igual a 100";
+} ELSE {
+    DISPLAY "d es igual a 500";
+}
+
+--/ Pruebas con FLOATS /--
+
+h := 30.2;
+k := 30.2;
+IF (h == k) {
+    DISPLAY "FLOATS IGUALES";
+}
+
+k := k + 0.4;
+IF (h < k) {
+    DISPLAY "h es menor a k";
+}
+
+h := h + 0.8;
+IF (h > k) {
+    DISPLAY "h es mayor a k";
+}
+
 ENDPROGRAM.SECTION

@@ -16,6 +16,11 @@ public class NodoBloqueSentencias extends NodoSentencia {
         this.sentencias = list;
     }
 
+    public NodoBloqueSentencias(List list, String name){
+        super(name);
+        this.sentencias = list;
+    }
+
     public void add(NodoSentencia sentencia) {
         this.sentencias.add(sentencia);
     }
